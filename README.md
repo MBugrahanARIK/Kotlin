@@ -4,19 +4,11 @@
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 
 ## İçerik
-+ [Değişkenler](https://github.com/MBugrahanARIK/Kotlin#1-de%C4%9Fi%C5%9Fkenler)
-+ [Tür Dönüşümü](https://github.com/MBugrahanARIK/Kotlin#2-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC)
-+ [Operatörler](https://github.com/MBugrahanARIK/Kotlin#3-operat%C3%B6rler)
-+ [Kişisel Notlarım](https://github.com/MBugrahanARIK/Kotlin#ki%C5%9Fisel-notlar%C4%B1m)
-+ [Kaynakça](https://github.com/MBugrahanARIK/Kotlin#kaynak%C3%A7a)
-
-##### Table of Contents  
-[Headers](#headers)  
-[Emphasis](#emphasis)  
-...snip...    
-<a name="headers"/>
-## Headers
-
++ [Değişkenler](#1-de%C4%9Fi%C5%9Fkenler)
++ [Tür Dönüşümü](#2-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC)
++ [Operatörler](#3-operat%C3%B6rler)
++ [Kişisel Notlarım](#ki%C5%9Fisel-notlar%C4%B1m)
++ [Kaynakça](#kaynak%C3%A7a)
 
 ## 1) Değişkenler
 
