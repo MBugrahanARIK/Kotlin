@@ -1,33 +1,7 @@
 # Kotlin Ders Notları 
-## Syntax
-+ ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
-
-## Kişisel Notlarım
-### Daha Sonrasında Araştır
-+ Paralelleştirme
-+ Farklı thread'leri kullanmak
-+ Data structures
-+ Primitive tipler, referans tipler
-+ infix fonksiyonlar
-### Yapmayı Dene
-+ Warning'leri çözmeye çalış
-### Kotlin İş Görüşmelerinde Sorulabilecek Sorular
-+ val ve var'ın farkı nedir?
-+ const val ve val'ın farkı nedir?
-### Ek Bilgi
-+ Android tuş kilidinden çıkılınca bütün widge'ler tekrar yüklenir.
-### Ek Notlar
+## Syntax Ve Temel Bilgiler
 + Kotlinde java kodlarını da kullanabiliriz.
-+ Kotlin'de primitive tipler direkt olarak tanımlanamaz.
-+ Yazdığımız kodlar derlenirken primitive tiplere dönüştürülür.
-+ Nullable değişkenler primitive özelliğini kaybeder.
-+ [utf-8 encoding bozulması durumunda sorunlar yaşanabileceği için yorumlar bile ingilizce karakterler ile yazılmalı.](https://www.youtube.com/watch?v=eYDZFqnOGC8&t=3226s)
-+ [Ülkelerin matematiksel hesaplarda kullanılan ondalık ayırma için kullanılan , veya . sembollerine dikkat edilmeli.](https://youtu.be/eYDZFqnOGC8?t=4984)
-	+ try ve catch içerisinde yazarak hem . için hem , için ayrı kodlar yazılarak çözülebilir.
-+ Boolean değişkenler için true veya false kullanılır 0 veya 1 kullanılamıyor.
-
-
-<br>
++ ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 
 ## 1) Değişkenler
 
@@ -72,6 +46,30 @@
 	|| - or - .or(x)	--> veya
 
 <br>
+
+## Kişisel Notlarım
+#### Daha Sonrasında Araştır
++ Paralelleştirme
++ Farklı thread'leri kullanmak
++ Data structures
++ Primitive tipler, referans tipler
++ infix fonksiyonlar
+#### Yapmayı Dene
++ Warning'leri çözmeye çalış
+#### Kotlin İş Görüşmelerinde Sorulabilecek Sorular
++ val ve var'ın farkı nedir?
++ const val ve val'ın farkı nedir?
+#### Ek Bilgi
++ Android tuş kilidinden çıkılınca bütün widge'ler tekrar yüklenir.
+#### Ek Notlar
++ Kotlin'de primitive tipler direkt olarak tanımlanamaz.
++ Yazdığımız kodlar derlenirken primitive tiplere dönüştürülür.
++ Nullable değişkenler primitive özelliğini kaybeder.
++ [utf-8 encoding bozulması durumunda sorunlar yaşanabileceği için yorumlar bile ingilizce karakterler ile yazılmalı.](https://www.youtube.com/watch?v=eYDZFqnOGC8&t=3226s)
++ [Ülkelerin matematiksel hesaplarda kullanılan ondalık ayırma için kullanılan , veya . sembollerine dikkat edilmeli.](https://youtu.be/eYDZFqnOGC8?t=4984)
+	+ try ve catch içerisinde yazarak hem . için hem , için ayrı kodlar yazılarak çözülebilir.
++ Boolean değişkenler için true veya false kullanılır 0 veya 1 kullanılamıyor.
+
 <br>
 
 ## Kaynakça
