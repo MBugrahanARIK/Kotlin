@@ -60,10 +60,10 @@
 # Tür Dönüşümü
 İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
 	
-### Kotlin kodlarını kullanarak tür dönüşümü yapmak
+#### Kotlin kodlarını kullanarak tür dönüşümü yapmak
 	donusturulecekDeger.toDonusturulecekTip()
 	x.toInt()
-### java özellikleri kullanarak tür dönüşümü yapmak
+#### java özellikleri kullanarak tür dönüşümü yapmak
 	donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 	Integer.parseInt(x)
 
@@ -73,6 +73,9 @@
 ### Mantıksal Operatörler
 	&& - and - .and(x)	--> ve
 	|| - or - .or(x)	--> veya
+
+<br>
+<br>
 
 # Kaynakça
 + ### [Kekod](https://www.youtube.com/@KeKod)
