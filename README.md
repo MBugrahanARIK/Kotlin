@@ -10,6 +10,14 @@
 + [Kişisel Notlarım](https://github.com/MBugrahanARIK/Kotlin#ki%C5%9Fisel-notlar%C4%B1m)
 + [Kaynakça](https://github.com/MBugrahanARIK/Kotlin#kaynak%C3%A7a)
 
+##### Table of Contents  
+[Headers](#headers)  
+[Emphasis](#emphasis)  
+...snip...    
+<a name="headers"/>
+## Headers
+
+
 ## 1) Değişkenler
 
 + val = (val)ue - immutable
