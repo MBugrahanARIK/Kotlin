@@ -4,11 +4,16 @@
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 
 ## İçerik
-+ [Değişkenler](#1-de%C4%9Fi%C5%9Fkenler)
-+ [Tür Dönüşümü](#2-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC)
-+ [Operatörler](#3-operat%C3%B6rler)
-+ [Kişisel Notlarım](#ki%C5%9Fisel-notlar%C4%B1m)
-+ [Kaynakça](#kaynak%C3%A7a)
+1. [Değişkenler](#1-de%C4%9Fi%C5%9Fkenler)
+	1. [Değişken tanımı](#de%C4%9Fi%C5%9Fken-tan%C4%B1m%C4%B1)
+	2. [Nullable değişken tanımlama](#nullable-de%C4%9Fi%C5%9Fken-tan%C4%B1mlama-de%C4%9Fi%C5%9Fken-isminin-sonunda--var)
+2. [Tür Dönüşümü](#2-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC)
+	1.[Kotlin kodlarını kullanarak tür dönüşümü yapmak](#kotlin-kodlar%C4%B1n%C4%B1-kullanarak-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC-yapmak)
+	2.[Java kodlarını kullanarak tür dönüşümü yapmak](#java-kodlar%C4%B1n%C4%B1-kullanarak-t%C3%BCr-d%C3%B6n%C3%BC%C5%9F%C3%BCm%C3%BC-yapmak)
+3. [Operatörler](#3-operat%C3%B6rler)
+	1.[Mantıksal Operatörler](#mant%C4%B1ksal-operat%C3%B6rler)
+4. [Kişisel Notlarım](#ki%C5%9Fisel-notlar%C4%B1m)
+5. [Kaynakça](#kaynak%C3%A7a)
 
 ## 1) Değişkenler
 
@@ -40,7 +45,7 @@
 #### Kotlin kodlarını kullanarak tür dönüşümü yapmak
 	donusturulecekDeger.toDonusturulecekTip()
 	x.toInt()
-#### java kodlarını kullanarak tür dönüşümü yapmak
+#### Java kodlarını kullanarak tür dönüşümü yapmak
 	donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 	Integer.parseInt(x)
 > kotlin'de "int degiskenAdi = (int) donusturulecekDeger" gibi bir kullanım yok.
