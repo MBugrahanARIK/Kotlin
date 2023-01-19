@@ -29,7 +29,7 @@
 
 <br>
 
-## Değişkenler
+## 1) Değişkenler
 
 + val = (val)ue - immutable
 + var = (var)iable - mutable
@@ -53,7 +53,7 @@
 
 <br>
 
-## Tür Dönüşümü
+## 2) Tür Dönüşümü
 İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
 	
 #### Kotlin kodlarını kullanarak tür dönüşümü yapmak
@@ -62,10 +62,11 @@
 #### java kodlarını kullanarak tür dönüşümü yapmak
 	donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 	Integer.parseInt(x)
+> kotlin'de "int degiskenAdi = (int) donusturulecekDeger" gibi bir kullanım yok.
 
 <br>
 
-## Operatörler
+## 3) Operatörler
 #### Mantıksal Operatörler
 	&& - and - .and(x)	--> ve
 	|| - or - .or(x)	--> veya
