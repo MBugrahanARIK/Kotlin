@@ -3,24 +3,20 @@
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 
 # Kişisel Notlarım
-## Daha Sonrasında Araştır
+### Daha Sonrasında Araştır
 + Paralelleştirme
 + Farklı thread'leri kullanmak
 + Data structures
 + Primitive tipler, referans tipler
 + infix fonksiyonlar
-
-## Yapmayı Dene
+### Yapmayı Dene
 + Warning'leri çözmeye çalış
-
-## kotlin İş Görüşmelerinde Sorulabilecek Sorular
+### Kotlin İş Görüşmelerinde Sorulabilecek Sorular
 + val ve var'ın farkı nedir?
 + const val ve val'ın farkı nedir?
-
-## Ek Bilgi
+### Ek Bilgi
 + Android tuş kilidinden çıkılınca bütün widge'ler tekrar yüklenir.
-
-## Ek Notlar
+### Ek Notlar
 + Kotlinde java kodlarını da kullanabiliriz.
 + Kotlin'de primitive tipler direkt olarak tanımlanamaz.
 + Yazdığımız kodlar derlenirken primitive tiplere dönüştürülür.
