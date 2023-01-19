@@ -2,8 +2,6 @@
 # Syntax
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 
-<br>
-
 # Kişisel Notlarım
 ## Daha Sonrasında Araştır
 + Paralelleştirme
@@ -12,8 +10,6 @@
 + Primitive tipler, referans tipler
 + infix fonksiyonlar
 
-<br>
-
 ## Yapmayı Dene
 + Warning'leri çözmeye çalış
 
@@ -21,12 +17,8 @@
 + val ve var'ın farkı nedir?
 + const val ve val'ın farkı nedir?
 
-<br>
-
 ## Ek Bilgi
 + Android tuş kilidinden çıkılınca bütün widge'ler tekrar yüklenir.
-
-<br>
 
 ## Ek Notlar
 + Kotlinde java kodlarını da kullanabiliriz.
@@ -39,8 +31,6 @@
 + Boolean değişkenler için true veya false kullanılır 0 veya 1 kullanılamıyor.
 
 
-<br>
-<br>
 <br>
 
 # Değişkenler
@@ -66,7 +56,6 @@
 > Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
 
 <br>
-<br>
 
 # Tür Dönüşümü
 İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
@@ -78,7 +67,6 @@
 	donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 	Integer.parseInt(x)
 
-<br>
 <br>
 
 # Operatörler
