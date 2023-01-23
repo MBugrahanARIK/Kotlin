@@ -105,9 +105,9 @@ Birden fazla satırda String bir ifade yazılacaksa """ üç çift tırnak kulla
 ```kotlin
 fun main() {
 
-    val myString = """
-    for (character in "Hey!")
-        println(character)
+	val myString = """
+	for (character in "Hey!")
+		println(character)
 """
     print(myString)
 }
@@ -122,16 +122,16 @@ Boşlukları trimMargin() fonksiyonu ile silebiliriz.
 ```kotlin
 fun main() {
 
-    println("trimMargin() fonksiyonu kullanmadan program çıktısı:")
+	println("trimMargin() fonksiyonu kullanmadan program çıktısı:")
 
-    val myString = """
-    |Kotlin is interesting.
-    |Kotlin is sponsored and developed by JetBrains.
+	val myString = """
+	|Kotlin is interesting.
+	|Kotlin is sponsored and developed by JetBrains.
 """
-    println(myString)
+	println(myString)
 
-    println("trimMargin() fonksiyonu kullanarak program çıktısı:\n")
-    println(myString.trimMargin())
+	println("trimMargin() fonksiyonu kullanarak program çıktısı:\n")
+	println(myString.trimMargin())
 }
 ```
 	#### Program Çıktısı ####
@@ -149,11 +149,11 @@ Belirli karakterleri silmek için
 ```kotlin
 fun main() {
 
-    val myString = """
-    !!! Kotlin is interesting.
-    !!! Kotlin is sponsored and developed by JetBrains.
+	val myString = """
+	!!! Kotlin is interesting.
+	!!! Kotlin is sponsored and developed by JetBrains.
 """
-    println(myString.trimMargin("!!! "))
+	println(myString.trimMargin("!!! "))
 }
 ```
 	#### Program Çıktısı ####
