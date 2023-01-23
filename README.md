@@ -4,7 +4,7 @@
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
 + Kod parçalarına isimlendirme yaparken türkçe karakter kullanılmaz. (Genel bilgi)
 
-### Yorum satırları:
+### Yorum Satırları:
 + **//:** tek satırda yorum yazma için kullanılır.
 + **/\* yorum \*/:** çoklu satırda yorum yazmak için kullanılır
 ```kotlin
@@ -26,7 +26,8 @@
 4. [Kişisel Notlarım](#ki%C5%9Fisel-notlar%C4%B1m)
 5. [Kaynakça](#kaynak%C3%A7a)
 
-
+<br>
+<br>
 
 ## 1) Değişkenler
 + val = (val)ue - immutable
@@ -40,56 +41,50 @@
 
 <br>
 
-#### 1.1) Değişken tanımı
+### 1.1) Değişken tanımı
 
 ```kotlin
 // degisimKarari degiskenAdi: degiskenTuru
 val name: String = "isim"
 val name = "isim"
 ```
-#### 1.2) Nullable değişken tanımlama
+### 1.2) Nullable değişken tanımlama
 ```kotlin
 // degisimKarari degiskenAdi?: degiskenTuru
 val name: String? = null
 ```
 > Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
 
-#### 1.3) Tür Dönüşümü
+### 1.3) Tür Dönüşümü
 İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
 	
-#### 1.3.1) Kotlin kodlarını kullanarak tür dönüşümü yapmak
+### 1.3.1) Kotlin kodlarını kullanarak tür dönüşümü yapmak
 ```kotlin
 // donusturulecekDeger.toDonusturulecekTip()
 x.toInt()
 ```
-#### 1.3.2) Java kodlarını kullanarak tür dönüşümü yapmak
+### 1.3.2) Java kodlarını kullanarak tür dönüşümü yapmak
 ```kotlin
 // donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 Integer.parseInt(x)
 ```
 > kotlin'de "int degiskenAdi = (int) donusturulecekDeger" gibi bir kullanım yok.
+
+<br>
 <br>
 
 ## 2) String
-String ifadeler " çift tırnak içerisine yazılır. Metinsel veriler belirli kurallar çerçevesinde String değişkenlerin içerisine yazılabilir.
+Karakterlerden(char) oluşmuş bir dizidir. String ifadeler " çift tırnak içerisine yazılır. Metinsel veriler belirli kurallar çerçevesinde String değişkenlerin içerisine yazılabilir.
 
 
-#### 2.1)Basit bir String tanımı:
+### 2.1)Basit bir String tanımı:
 
 ```kotlin
 val str = "abcd 123"
 val str2: String = "abcd 123"
 ```
 
-
-#### 2.2) Kotlinde String Değerler Immutable(değiştirilemez) Şekildedir.
-	var myString = "Hey!"
-	myString[0] = 'h'
-
-> Değişken içerisindeki karakterleri değiştiremeyiz. Ama değişken değerini tamamen değiştirmekte bir sakınca yoktur.
-
-
-#### 2.3) Kaçış Karakterleri
+### 2.2) Kaçış Karakterleri
 + \\t - Tab ekler.
 + \\b - Solundan bir karakter siler.
 + \\n - Bulunduğu yerden gelen sonraki string ifadeleri bir alt satırdan başlatır.
@@ -100,7 +95,7 @@ val str2: String = "abcd 123"
 + \\$ - $ karakteri ekler
 
 
-#### 2.4) Çoklu String Kullanımı
+### 2.3) Raw String Kullanımı
 Birden fazla satırda String bir ifade yazılacaksa """ üç çift tırnak kullanılarak yazılabilir. Yazı boşluklar dahil yazıldığı şeklide çıktısı sağlanır.
 ```kotlin
 fun main() {
@@ -117,7 +112,7 @@ fun main() {
 			println(character)
 
 
-#### 2.5) trimMargin()
+### 2.4) trimMargin()
 Boşlukları trimMargin() fonksiyonu ile silebiliriz.
 ```kotlin
 fun main() {
@@ -160,8 +155,9 @@ fun main() {
 	Kotlin is interesting.
 	Kotlin is sponsored and developed by JetBrains.
 
+### 2.5) trimIndent() -----------------------------------------------
 
-#### 2.6) String Şablon İfadeler
+### 2.6) String Şablon İfadeler
 String bir ifadenin içerisinde belirli ifadeleri dışarıdan dahil etmek veya küçük kodlar yazmak için $ simgesini kullanıyoruz.
 ```kotlin
 fun main() {
@@ -175,7 +171,7 @@ fun main() {
 	myInt = 5
 
 ```kotlin
-// İçerisine koşullu ifade yazılmış versiyonu
+// Değer aldığınız yerin herhangi bir özelliğini kullanacaksanız {}'ler içerisinde yazmanız gerekiyor.
 fun main() {
 	val a = 5
 	val b = 6
@@ -184,13 +180,11 @@ fun main() {
 	"""
 	println("Larger number is: ${myString.trimMargin()}")
 }
-
 ```
 	#### Program Çıktısı ####
 	Larger number is: 6
 
-
-#### 2.7) String İfadeler İle Kullanılan Bazı Fonksiyonlar
+### 2.7) String İfadeler İle Kullanılan Bazı Fonksiyonlar
 + **length:** String karakter uzunluğunu verir.
 + **compareTo:** String ifadeyi belirtilen nesneyle karşılaştırır. Nesne belirtilen nesneye eşitse 0 döndürür.
 + **get:** Belirtilen bir konumdaki karakteri geri döndürür. Konum 0'dan başlar.
@@ -218,9 +212,31 @@ fun main() {
 
 }
 ```
+
+### 2.8) Bazı Detay Bilgiler
+
+```kotlin
+// Kotlinde String Değerler Immutable(değiştirilemez) Şekildedir.
+// Değişken içerisindeki karakterleri değiştiremeyiz. Ama değişken değerini tamamen değiştirmekte bir sakınca yoktur.
+
+// Hatalı kullanım.
+var myString = "Hey!"
+myString[0] = 'h'
+
+// Doğru kullanım.
+var myString = "Hey!"
+myString = "hey!"
+
+// String bir ifade ile (önde olmak koşulu ile) farklı bir ifadeyi toplarsanız, sonuç String olur.
+// String ifadenin önünde farklı bir ifade ile toplarsanız kod çalışmaz.
+val numbersValue: String = "value" + (4 + 2 + 8) // <-- çalışır
+val numbersValue: String = (4 + 2 + 8) + "value" // <-- çalışmaz
+
+```
+
+
+
 <br>
-
-
 <br>
 
 ## 3) Operatörler
@@ -241,16 +257,59 @@ fun main() {
 + [Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
 
 <br>
+<br>
 
 ## 4) Diziler
-#### Dizi oluşturmak
+### 4.1) Dizi oluşturmak
 ```kotlin
+// Parametreleri vererek dizi oluşturmak
 val dizi = arrayOf(13,12,55,23)
 val dizi = arrayOf("Ali","Veli","Ayşe","Burcu")
 val dizi = arrayOf<Any>(12,"Ali",'a',true)
-val dizi = arrayOfNulls<String>(4)
-```
 
+// Başlangıç değeri null olan dizi oluşturmak
+val dizi = arrayOfNulls<String>(4)
+
+// Başlangıç değeri verilerek dizi oluşturmak
+// Array<diziTuru>(diziUzunlugu){aktarilacakDegerler}
+// Bütün değerleri 3 olarak initialize etti.
+val dizi = Array<Int>(5){3} // <-- higher-order fonksiyon alıyor
+
+// Primitive array tanımı
+// Bir önceki tanımla benzer ancak higher-order fonksiyon almıyor.
+val dizi = CharArray(5) // <-- higher-order fonksiyon almıyor
+
+// Dizi değişkenlerini val olarak tanımlamak içindeki değerlerin değişemez olduğu anlamına gelmiyor. Ancak diziyi tanımladığınız değişkene farklı bir atama yapamazsınız.
+
+	// Bu kullanım doğrudur.
+    val dizi = arrayOf(4,2,3,4,5)
+	dizi[0]=3
+
+	// Bu kullanım hatalıdır.
+    val dizi = arrayOf(4,2,3,4,5)
+    val dizi2 = arrayOf(3,4,5,6)
+    dizi = dizi2
+```
+### 4.2) Dizilere Erişmek
+```kotlin
+// Diziden veri almak
+// dizi[indexNumber] ve/veya dizi.get(indexNumber)
+val dizi = arrayOf(4,2,3,4,5)
+dizi[0] // 4
+dizi[4] // 5
+dizi[2] // 3
+dizi.get(1) // 2
+
+
+// Diziye değer ataması yapmak
+// dizi[indexNumber] = Türe uygun değer ve/veya dizi.set(indexNumber, atanacakDeger)
+val dizi = arrayOf(4,2,3,4,5)
+dizi[0]=1 // index'i 0 olan 4 değerini 1 ile değiştirdi.
+dizi.set(3,2) // index'i 3 olan 4 değerini 2 ile değiştirdi.
+```
+>dizilere erişmek için dizi[indexNumber] yöntemini kullanmanızı tavsiye ederim.
+
+<br>
 <br>
 
 ## Kişisel Notlarım
