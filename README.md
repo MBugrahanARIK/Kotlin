@@ -2,6 +2,17 @@
 ## Syntax Ve Temel Bilgiler
 + Kotlinde java kodlarını da kullanabiliriz.
 + ; kullanımı kotlinde yok. Kullanınca hata vermez, ama ide kullanmamayı öneri verir.
++ Kod parçalarına isimlendirme yaparken türkçe karakter kullanılmaz. (Genel bilgi)
+
+### Yorum satırları:
++ **//:** tek satırda yorum yazma için kullanılır.
++ **/\* yorum \*/:** çoklu satırda yorum yazmak için kullanılır
+```kotlin
+// Tek satırda yorum
+/*	Çoklu 
+		satırda
+			yorum */
+```
 
 ## İçerik
 1. [Değişkenler](#1-de%C4%9Fi%C5%9Fkenler)
@@ -15,8 +26,9 @@
 4. [Kişisel Notlarım](#ki%C5%9Fisel-notlar%C4%B1m)
 5. [Kaynakça](#kaynak%C3%A7a)
 
-## 1) Değişkenler
 
+
+## 1) Değişkenler
 + val = (val)ue - immutable
 + var = (var)iable - mutable
 + val değeri daha sonradan değiştirilemez.
@@ -26,36 +38,218 @@
 + Kolay okumak için sayıda _ kullanabilirsiniz. derlemede _'ler kaldırılır.
 	+ Sayısal değer olarak 1000000 ve 1_000_000 aynıdır.
 
-#### Değişken tanımı
-	degisimKarari degiskenAdi: degiskenTuru
-	val name: String = "isim"
-	val name = "isim"
-		
-#### Nullable değişken tanımlama (değişken isminin sonunda ? var)
-	degisimKarari degiskenAdi?: degiskenTuru
-	val name: String? = null
-
-> Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
-
 <br>
 
-## 2) Tür Dönüşümü
+#### 1.1) Değişken tanımı
+
+```kotlin
+// degisimKarari degiskenAdi: degiskenTuru
+val name: String = "isim"
+val name = "isim"
+```
+#### 1.2) Nullable değişken tanımlama
+```kotlin
+// degisimKarari degiskenAdi?: degiskenTuru
+val name: String? = null
+```
+> Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
+
+#### 1.3) Tür Dönüşümü
 İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
 	
-#### Kotlin kodlarını kullanarak tür dönüşümü yapmak
-	donusturulecekDeger.toDonusturulecekTip()
-	x.toInt()
-#### Java kodlarını kullanarak tür dönüşümü yapmak
-	donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
-	Integer.parseInt(x)
+#### 1.3.1) Kotlin kodlarını kullanarak tür dönüşümü yapmak
+```kotlin
+// donusturulecekDeger.toDonusturulecekTip()
+x.toInt()
+```
+#### 1.3.2) Java kodlarını kullanarak tür dönüşümü yapmak
+```kotlin
+// donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
+Integer.parseInt(x)
+```
 > kotlin'de "int degiskenAdi = (int) donusturulecekDeger" gibi bir kullanım yok.
+<br>
+
+## 2) String
+String ifadeler " çift tırnak içerisine yazılır. Metinsel veriler belirli kurallar çerçevesinde String değişkenlerin içerisine yazılabilir.
+
+
+#### 2.1)Basit bir String tanımı:
+
+```kotlin
+val str = "abcd 123"
+val str2: String = "abcd 123"
+```
+
+
+#### 2.2) Kotlinde String Değerler Immutable(değiştirilemez) Şekildedir.
+	var myString = "Hey!"
+	myString[0] = 'h'
+
+> Değişken içerisindeki karakterleri değiştiremeyiz. Ama değişken değerini tamamen değiştirmekte bir sakınca yoktur.
+
+
+#### 2.3) Kaçış Karakterleri
++ \\t - Tab ekler.
++ \\b - Solundan bir karakter siler.
++ \\n - Bulunduğu yerden gelen sonraki string ifadeleri bir alt satırdan başlatır.
++ \\r - Bulunduğu konumu yeni satır başı yapar. Eğer bulunduğu satırda önce yazılar varsa, onları siler.
++ \\' - Tek tırnak ekler.
++ \\" - Çift tırnak ekler.
++ \\\\ - \ karakteri ekler
++ \\$ - $ karakteri ekler
+
+
+#### 2.4) Çoklu String Kullanımı
+Birden fazla satırda String bir ifade yazılacaksa """ üç çift tırnak kullanılarak yazılabilir. Yazı boşluklar dahil yazıldığı şeklide çıktısı sağlanır.
+```kotlin
+fun main() {
+
+    val myString = """
+    for (character in "Hey!")
+        println(character)
+"""
+    print(myString)
+}
+```
+	#### Program çıktısı ####
+		for (character in "Hey!")
+			println(character)
+
+
+#### 2.5) trimMargin()
+Boşlukları trimMargin() fonksiyonu ile silebiliriz.
+```kotlin
+fun main() {
+
+    println("trimMargin() fonksiyonu kullanmadan program çıktısı:")
+
+    val myString = """
+    |Kotlin is interesting.
+    |Kotlin is sponsored and developed by JetBrains.
+"""
+    println(myString)
+
+    println("trimMargin() fonksiyonu kullanarak program çıktısı:\n")
+    println(myString.trimMargin())
+}
+```
+	#### Program Çıktısı ####
+	trimMargin() fonksiyonu kullanmadan program çıktısı:
+
+		|Kotlin is interesting.
+		|Kotlin is sponsored and developed by JetBrains.
+
+	trimMargin() fonksiyonu kullanarak program çıktısı:
+
+	Kotlin is interesting.
+	Kotlin is sponsored and developed by JetBrains.
+
+Belirli karakterleri silmek için
+```kotlin
+fun main() {
+
+    val myString = """
+    !!! Kotlin is interesting.
+    !!! Kotlin is sponsored and developed by JetBrains.
+"""
+    println(myString.trimMargin("!!! "))
+}
+```
+	#### Program Çıktısı ####
+	Kotlin is interesting.
+	Kotlin is sponsored and developed by JetBrains.
+
+
+#### 2.6) String Şablon İfadeler
+String bir ifadenin içerisinde belirli ifadeleri dışarıdan dahil etmek veya küçük kodlar yazmak için $ simgesini kullanıyoruz.
+```kotlin
+fun main() {
+	val myInt = 5;
+	val myString = "myInt = $myInt"
+
+	println(myString)
+}
+```
+	#### Program Çıktısı ####
+	myInt = 5
+
+```kotlin
+// İçerisine koşullu ifade yazılmış versiyonu
+fun main() {
+	val a = 5
+	val b = 6
+	val myString = """
+	|${if (a > b) a else b}
+	"""
+	println("Larger number is: ${myString.trimMargin()}")
+}
+
+```
+	#### Program Çıktısı ####
+	Larger number is: 6
+
+
+#### 2.7) String İfadeler İle Kullanılan Bazı Fonksiyonlar
++ **length:** String karakter uzunluğunu verir.
++ **compareTo:** String ifadeyi belirtilen nesneyle karşılaştırır. Nesne belirtilen nesneye eşitse 0 döndürür.
++ **get:** Belirtilen bir konumdaki karakteri geri döndürür. Konum 0'dan başlar.
++ **plus:** İki String ifadeyi birleştirmeye yarar. Aynı şekilde + operatörünü kullanarak da aynı işlev yapılabilir.
++ **subSequence:** Belirtilen konumlar arasındaki String ifadeyi geri döndürür.
+```kotlin
+	fun main() {
+
+		val s1  = "Hey there!"
+		val s2 = "Hey there!"
+		var result: String
+
+		println("Length of s1 string is ${s1.length}.")
+
+		result = if (s1.compareTo(s2) == 0) "equal" else "not equal"
+		println("Strings s1 and s2 are $result.")
+
+		// s1.get(2) is equivalent to s1[2]
+		println("Third character is ${s1.get(2)}.")
+
+		result = s1.plus(" How are you?") // result = s1 + " How are you?"
+		println("result = $result")
+
+		println("Substring is \"${s1.subSequence(4, 7)}\"")
+
+	}
+```
+<br>
+
 
 <br>
 
 ## 3) Operatörler
-#### Mantıksal Operatörler
++ Matematiksel operatörler: ``` +, -, *, /, % ```
++ Mantıksal operatörler:
+```kotlin 
 	&& - and - .and(x)	--> ve
 	|| - or - .or(x)	--> veya
+	! - not - .not(x)	--> değilse
+```
++ Atama operatörü: ``` = ```
++ Arttırılmış atama operatörleri: ``` +=, -=, *=, /=, %= ```
++ Arttırma operatörleri: ``` ++, --```
++ Eşitlik karşılaştırma operatörleri: ``` ==, != ```
++ Referans eşitliği karşılaştırma operatörleri: ``` ===, !== ``` ve primitive(ilkel) olmayan türler için ```equals()```
++ Sayısal verilerin karşılaştırlılması: ```<, >, <=, >=``` ve primitive(ilkel) olmayan türler için ```compareTo()```
++ İndexlenmiş verilere erişim operatörü: ```[, ]```
++ [Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
+
+<br>
+
+## 4) Diziler
+#### Dizi oluşturmak
+```kotlin
+val dizi = arrayOf(13,12,55,23)
+val dizi = arrayOf("Ali","Veli","Ayşe","Burcu")
+val dizi = arrayOf<Any>(12,"Ali",'a',true)
+val dizi = arrayOfNulls<String>(4)
+```
 
 <br>
 
@@ -85,4 +279,7 @@
 <br>
 
 ## Kaynakça
++ #### [Kotlin Official](https://kotlinlang.org/)
 + #### [Kekod](https://www.youtube.com/@KeKod)
++ #### [Programiz -> Kotlin String and String Templates](https://www.programiz.com/kotlin-programming/string)
+
