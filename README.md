@@ -197,26 +197,26 @@ fun main() {
 + **plus:** İki String ifadeyi birleştirmeye yarar. Aynı şekilde + operatörünü kullanarak da aynı işlev yapılabilir.
 + **subSequence:** Belirtilen konumlar arasındaki String ifadeyi geri döndürür.
 ```kotlin
-	fun main() {
+fun main() {
 
-		val s1  = "Hey there!"
-		val s2 = "Hey there!"
-		var result: String
+	val s1  = "Hey there!"
+	val s2 = "Hey there!"
+	var result: String
 
-		println("Length of s1 string is ${s1.length}.")
+	println("Length of s1 string is ${s1.length}.")
 
-		result = if (s1.compareTo(s2) == 0) "equal" else "not equal"
-		println("Strings s1 and s2 are $result.")
+	result = if (s1.compareTo(s2) == 0) "equal" else "not equal"
+	println("Strings s1 and s2 are $result.")
 
-		// s1.get(2) is equivalent to s1[2]
-		println("Third character is ${s1.get(2)}.")
+	// s1.get(2) is equivalent to s1[2]
+	println("Third character is ${s1.get(2)}.")
 
-		result = s1.plus(" How are you?") // result = s1 + " How are you?"
-		println("result = $result")
+	result = s1.plus(" How are you?") // result = s1 + " How are you?"
+	println("result = $result")
 
-		println("Substring is \"${s1.subSequence(4, 7)}\"")
+	println("Substring is \"${s1.subSequence(4, 7)}\"")
 
-	}
+}
 ```
 <br>
 
@@ -224,20 +224,20 @@ fun main() {
 <br>
 
 ## 3) Operatörler
-+ Matematiksel operatörler: ``` +, -, *, /, % ```
++ Matematiksel operatörler: ```+```, ```-```, ```*```, ```/```, ```%```
 + Mantıksal operatörler:
 ```kotlin 
-	&& - and - .and(x)	--> ve
-	|| - or - .or(x)	--> veya
-	! - not - .not(x)	--> değilse
+&& - and - .and(x)	--> ve
+|| - or - .or(x)	--> veya
+! - not - .not(x)	--> değilse
 ```
 + Atama operatörü: ``` = ```
-+ Arttırılmış atama operatörleri: ``` +=, -=, *=, /=, %= ```
-+ Arttırma operatörleri: ``` ++, --```
-+ Eşitlik karşılaştırma operatörleri: ``` ==, != ```
-+ Referans eşitliği karşılaştırma operatörleri: ``` ===, !== ``` ve primitive(ilkel) olmayan türler için ```equals()```
-+ Sayısal verilerin karşılaştırlılması: ```<, >, <=, >=``` ve primitive(ilkel) olmayan türler için ```compareTo()```
-+ İndexlenmiş verilere erişim operatörü: ```[, ]```
++ Arttırılmış atama operatörleri: ```+=```, ```-=```, ```*=```, ```/=```, ```%=```
++ Arttırma operatörleri: ```++```, ```--```
++ Eşitlik karşılaştırma operatörleri: ```==```, ```!=```
++ Referans eşitliği karşılaştırma operatörleri: ```===```, ```!==``` ve primitive(ilkel) olmayan türler için ```equals()```
++ Sayısal verilerin karşılaştırlılması: ```<```, ```>```, ```<=```, ```>=``` ve primitive(ilkel) olmayan türler için ```compareTo()```
++ İndexlenmiş verilere erişim operatörü: ```[```, ```]```
 + [Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
 
 <br>
