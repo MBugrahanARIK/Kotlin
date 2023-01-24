@@ -30,40 +30,99 @@
 <br>
 
 ## 1) Değişkenler
-+ val = (val)ue - immutable
-+ var = (var)iable - mutable
++ Türkçe karakter kullanılmaz.
++ Sayısal değerler sıfırla başlanamaz.
 + val değeri daha sonradan değiştirilemez.
 + Var değeri daha sonradan değişebilir.
 + Değişkene ilk değer ataması veriliyorsa değikene değişken tipi vermek gerekmez.
-+ Sayısal değerler sıfırla başlanamaz.
 + Kolay okumak için sayıda _ kullanabilirsiniz. derlemede _'ler kaldırılır.
 	+ Sayısal değer olarak 1000000 ve 1_000_000 aynıdır.
 
+>val = (val)ue - immutable = değiştirilemez
+
+>var = (var)iable - mutable = değiştirilebilir
+
 <br>
 
-### 1.1) Değişken tanımı
+Değişken, değişim kararı, değişken adı, ":" sembolü, değişken türü ve "=" atama operatörü kullanıldıktan sonra değişken değeri verilerek tanımlanır.
 
 ```kotlin
 // degisimKarari degiskenAdi: degiskenTuru
+// degisimKarari degiskenAdi = degiskeneUygunDeger
+
+// Değiştirilemez
 val name: String = "isim"
-val name = "isim"
+val name2 = "isim" // <-- değişkene ilk değer verilip değişken tipi verilmemiş
+
+// Değiştirilebilir
+var name3: String = "isim"
+var name4 = "isim" // <-- değişkene ilk değer verilip değişken tipi verilmemiş
 ```
-### 1.2) Nullable değişken tanımlama
+> Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
+
+Bir değişkenin null değer alabilmesi için değiken tipinin sonuna ? işareti koyulur.
 ```kotlin
 // degisimKarari degiskenAdi?: degiskenTuru
 val name: String? = null
 ```
-> Değişken tanımını ilk olarak val ile yapmak daha mantıklı. Eğer değişken değeri daha sonrasında değişecekse var olarak değiştirebiliriz.
+Nullable olmayan integer değişkenlerin java karşılığı int iken Nullable integer değişkenlerin java karşılığı Integer şeklindedir.
+```kotlin
+// Java karşılığı int
+val number: Int // UnBoxed	: Değişken primitive tip olarak tutulur.
 
-### 1.3) Tür Dönüşümü
-İki değer toplanıp yeni bir değişkene değer olarak atanır ve belirli bir tip verilmez ise uygun olan tipe dönüşür.
-	
-### 1.3.1) Kotlin kodlarını kullanarak tür dönüşümü yapmak
+// Java karşılığı Integer
+val number2: Int? // Boxed	: Değişken obje referansı olarak tutulmuştur.
+```
+> Küçük veriler ile çalışırken performans kaybı çok değildir. Ama primitive tip olarak tutulması daha performanslıdır. Değişkene null değer gelmeyecekse, oluşturacağınız değişkeni nullable yapmamanızı öneririm.
+
+```kotlin
+fun main() {
+    val number: Int = 1000
+    val number2: Int? = number
+    val number3: Int? = number
+    println(number2===number3) // false
+    println(number2==number3) // true
+
+    println("-----------------")
+
+    val number4: Int = number
+    val number5: Int = number
+    println(number4===number5) // true
+    println(number4==number5) // true
+}
+```
+
+Eğer bir değişkene tip verilmez ve direkt null değer ataması yapılırsa, IDE tip çıkarımı yapamaz ve bu değişkenin tipini Nothing? olarak işaretler.
+```kotlin
+// degisimKarari degiskenAdi = null
+val name = null // <-- ile aynıdır --> val name:Nothing? = null 
+```
+İçerisi null olan bir değişkeni ile direkt matematiksel işlem yapamazsınız. !! veya ? operatörlerini kullanmak gerekir. 
+>+ !! değer null ise hata ver
+>+ ? eğer değer null ise işlemi yapma
+```kotlin
+val result: Int? = null
+result?.plus(100) // <-- işlemi yapmaz
+result!!.plus(100) // <-- hata verir
+```
+[Değişkenlere daha detaylı bakmak isterseniz](https://kotlinlang.org/docs/basic-types.html)
+
+<br>
+<br>
+
+## 2) Tür Dönüşümü
+İki değer toplanıp yeni bir değişkene değer olarak atanır ve tip verilmez ise uygun olan tipe dönüşür. İki değer toplandığında eğer ondalıklı sayı değilse, dönüşeceği en az veri alan tip Int'tir
+```kotlin
+val byte: Byte = 10
+val byte2: Byte= 20
+val topla = byte+byte2 // <-- Int olarak işaretlendi.
+```
+Kotlin kodlarını kullanarak tür dönüşümü yapmak
 ```kotlin
 // donusturulecekDeger.toDonusturulecekTip()
 x.toInt()
 ```
-### 1.3.2) Java kodlarını kullanarak tür dönüşümü yapmak
+Java kodlarını kullanarak tür dönüşümü yapmak
 ```kotlin
 // donusturulecekTur.parseDonusturulecekTur(donusturulecekDeger)
 Integer.parseInt(x)
@@ -73,30 +132,17 @@ Integer.parseInt(x)
 <br>
 <br>
 
-## 2) String
+## 3) String
 Karakterlerden(char) oluşmuş bir dizidir. String ifadeler " çift tırnak içerisine yazılır. Metinsel veriler belirli kurallar çerçevesinde String değişkenlerin içerisine yazılabilir.
 
 
-### 2.1)Basit bir String tanımı:
+String tanımı:
 
 ```kotlin
-val str = "abcd 123"
-val str2: String = "abcd 123"
+val str: String = "abcd 123"
+val str2 = "abcd 123"
 ```
-
-### 2.2) Kaçış Karakterleri
-+ \\t - Tab ekler.
-+ \\b - Solundan bir karakter siler.
-+ \\n - Bulunduğu yerden gelen sonraki string ifadeleri bir alt satırdan başlatır.
-+ \\r - Bulunduğu konumu yeni satır başı yapar. Eğer bulunduğu satırda önce yazılar varsa, onları siler.
-+ \\' - Tek tırnak ekler.
-+ \\" - Çift tırnak ekler.
-+ \\\\ - \ karakteri ekler
-+ \\$ - $ karakteri ekler
-
-
-### 2.3) Raw String Kullanımı
-Birden fazla satırda String bir ifade yazılacaksa """ üç çift tırnak kullanılarak yazılabilir. Yazı boşluklar dahil yazıldığı şeklide çıktısı sağlanır.
+Birden fazla satırda String bir ifade yazılacaksa """ üç çift tırnak kullanılarak yazılabilir. Buna Raw String Kullanımı deniyor. Yazı boşluklar dahil yazıldığı şeklide çıktısı sağlanır.
 ```kotlin
 fun main() {
 
@@ -111,67 +157,26 @@ fun main() {
 		for (character in "Hey!")
 			println(character)
 
+String bir ifadenin içerisinde belirli ifadeleri dışarıdan veri dahil etmek için \$ simgesini ya da \${ } kullanıyoruz.
 
-### 2.4) trimMargin()
-Boşlukları trimMargin() fonksiyonu ile silebiliriz.
-```kotlin
-fun main() {
-
-	println("trimMargin() fonksiyonu kullanmadan program çıktısı:")
-
-	val myString = """
-	|Kotlin is interesting.
-	|Kotlin is sponsored and developed by JetBrains.
-"""
-	println(myString)
-
-	println("trimMargin() fonksiyonu kullanarak program çıktısı:\n")
-	println(myString.trimMargin())
-}
-```
-	#### Program Çıktısı ####
-	trimMargin() fonksiyonu kullanmadan program çıktısı:
-
-		|Kotlin is interesting.
-		|Kotlin is sponsored and developed by JetBrains.
-
-	trimMargin() fonksiyonu kullanarak program çıktısı:
-
-	Kotlin is interesting.
-	Kotlin is sponsored and developed by JetBrains.
-
-Belirli karakterleri silmek için
-```kotlin
-fun main() {
-
-	val myString = """
-	!!! Kotlin is interesting.
-	!!! Kotlin is sponsored and developed by JetBrains.
-"""
-	println(myString.trimMargin("!!! "))
-}
-```
-	#### Program Çıktısı ####
-	Kotlin is interesting.
-	Kotlin is sponsored and developed by JetBrains.
-
-### 2.5) trimIndent() -----------------------------------------------
-
-### 2.6) String Şablon İfadeler
-String bir ifadenin içerisinde belirli ifadeleri dışarıdan dahil etmek veya küçük kodlar yazmak için $ simgesini kullanıyoruz.
 ```kotlin
 fun main() {
 	val myInt = 5;
 	val myString = "myInt = $myInt"
 
 	println(myString)
+
+	val myString2 = "myInt = ${myInt}"
+
+	println(myString2)
 }
 ```
 	#### Program Çıktısı ####
 	myInt = 5
+	myInt = 5
 
+Değer aldığınız yerin herhangi bir özelliğini kullanacaksanız {}'ler içerisinde yazmanız gerekiyor.
 ```kotlin
-// Değer aldığınız yerin herhangi bir özelliğini kullanacaksanız {}'ler içerisinde yazmanız gerekiyor.
 fun main() {
 	val a = 5
 	val b = 6
@@ -184,7 +189,19 @@ fun main() {
 	#### Program Çıktısı ####
 	Larger number is: 6
 
-### 2.7) String İfadeler İle Kullanılan Bazı Fonksiyonlar
+<br>
+
+### 3.1) Kaçış Karakterleri
++ \\t - Tab ekler.
++ \\b - Solundan bir karakter siler.
++ \\n - Bulunduğu yerden gelen sonraki string ifadeleri bir alt satırdan başlatır.
++ \\r - Bulunduğu konumu yeni satır başı yapar. Eğer bulunduğu satırda önce yazılar varsa, onları siler.
++ \\' - Tek tırnak ekler.
++ \\" - Çift tırnak ekler.
++ \\\\ - \ karakteri ekler
++ \\$ - $ karakteri ekler
+
+### 3.2) String İfadeler İle Kullanılan Bazı Özellik Ve Fonksiyonlar
 + **length:** String karakter uzunluğunu verir.
 + **compareTo:** String ifadeyi belirtilen nesneyle karşılaştırır. Nesne belirtilen nesneye eşitse 0 döndürür.
 + **get:** Belirtilen bir konumdaki karakteri geri döndürür. Konum 0'dan başlar.
@@ -213,11 +230,85 @@ fun main() {
 }
 ```
 
-### 2.8) Bazı Detay Bilgiler
+### 3.3) trimMargin()
+Boşlukları trimMargin() fonksiyonu ile silebiliriz. Parantezler içerisinde belirli bir karakter belirtirseniz, her satırın ilk karakterine bakar ve belirtilen karakteri bulduğunda karakter de dahil olmak üzere solundaki boşlukları siler.
+```kotlin
+fun main() {
+
+	println("trimMargin() fonksiyonu kullanmadan program çıktısı:")
+
+	val myString = """
+	|Kotlin is interesting.
+	|Kotlin is sponsored and developed by JetBrains.
+"""
+	println(myString)
+
+	println("trimMargin() fonksiyonu kullanarak program çıktısı:\n")
+	println(myString.trimMargin())
+}
+```
+	#### Program Çıktısı ####
+	trimMargin() fonksiyonu kullanmadan program çıktısı:
+
+		|Kotlin is interesting.
+		|Kotlin is sponsored and developed by JetBrains.
+
+	trimMargin() fonksiyonu kullanarak program çıktısı:
+
+	Kotlin is interesting.
+	Kotlin is sponsored and developed by JetBrains.
+
+```kotlin
+// Parantezler içerisinde karakter belirtip,
+// karakter de dahil olmak üzere boşlukları silmek
+fun main() {
+
+	val myString = """
+	$!!! Kotlin is interesting.
+	!!! Kotlin is sponsored and developed by JetBrains.
+"""
+	println(myString.trimMargin("$"))
+}
+```
+	#### Program Çıktısı ####
+	!!! Kotlin is interesting.
+		!!! Kotlin is sponsored and developed by JetBrains.
+
+### 3.4) trimIndent()
+Raw String'lerde en soldaki karakteri baz alarak boşlukları silip sol karaktere hizalar.
+```kotlin
+val rawPineTree = """
+	      *
+	     ***
+	    *****
+""".trimIndent()
+println(rawPineTree)
+```
+	#### Program Çıktısı ####
+	  *
+	 ***
+	*****
+```kotlin
+val rawPineTree = """
+	      *
+$	     ***
+	    *****
+""".trimIndent()
+println(rawPineTree)
+```
+	#### Program Çıktısı ####
+			  *
+	$	     ***
+			*****
+
+### 3.5) indices Kullanımı ------------------- TODO -------------------
+
+### 3.6) Bazı Detay Bilgiler
 
 ```kotlin
 // Kotlinde String Değerler Immutable(değiştirilemez) Şekildedir.
-// Değişken içerisindeki karakterleri değiştiremeyiz. Ama değişken değerini tamamen değiştirmekte bir sakınca yoktur.
+// Değişken içerisindeki karakterleri değiştiremeyiz.
+// Ama değişken değerini tamamen değiştirmekte bir sakınca yoktur.
 
 // Hatalı kullanım.
 var myString = "Hey!"
@@ -234,12 +325,23 @@ val numbersValue: String = (4 + 2 + 8) + "value" // <-- çalışmaz
 
 ```
 
+```kotlin
+// Raw Stringler içerisinde kaçış karakterleri çalışmaz
+val myString = """
+	|Kotlin is interesting. \n
+	|Kotlin is sponsored and developed by JetBrains.
+"""
+println(myString)
+```
+	#### Program Çıktısı ####
 
+		|Kotlin is interesting. \n
+		|Kotlin is sponsored and developed by JetBrains.
 
 <br>
 <br>
 
-## 3) Operatörler
+## 4) Operatörler
 + Matematiksel operatörler: ```+```, ```-```, ```*```, ```/```, ```%```
 + Mantıksal operatörler:
 ```kotlin 
@@ -250,8 +352,8 @@ val numbersValue: String = (4 + 2 + 8) + "value" // <-- çalışmaz
 + Atama operatörü: ``` = ```
 + Arttırılmış atama operatörleri: ```+=```, ```-=```, ```*=```, ```/=```, ```%=```
 + Arttırma operatörleri: ```++```, ```--```
-+ Eşitlik karşılaştırma operatörleri: ```==```, ```!=```
-+ Referans eşitliği karşılaştırma operatörleri: ```===```, ```!==``` ve primitive(ilkel) olmayan türler için ```equals()```
++ Eşitlik karşılaştırma operatörleri: ```==```, ```!=``` ve primitive(ilkel) olmayan türler için ```equals()```
++ Referans eşitliği karşılaştırma operatörleri: ```===```, ```!==```
 + Sayısal verilerin karşılaştırlılması: ```<```, ```>```, ```<=```, ```>=``` ve primitive(ilkel) olmayan türler için ```compareTo()```
 + İndexlenmiş verilere erişim operatörü: ```[```, ```]```
 + [Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
@@ -259,38 +361,52 @@ val numbersValue: String = (4 + 2 + 8) + "value" // <-- çalışmaz
 <br>
 <br>
 
-## 4) Diziler
-### 4.1) Dizi oluşturmak
+## 5) Diziler
+
+Parametreleri vererek dizi oluşturmak
 ```kotlin
-// Parametreleri vererek dizi oluşturmak
 val dizi = arrayOf(13,12,55,23)
 val dizi = arrayOf("Ali","Veli","Ayşe","Burcu")
 val dizi = arrayOf<Any>(12,"Ali",'a',true)
-
-// Başlangıç değeri null olan dizi oluşturmak
+```
+Başlangıç değeri null olan dizi oluşturmak
+```kotlin
 val dizi = arrayOfNulls<String>(4)
-
-// Başlangıç değeri verilerek dizi oluşturmak
+```
+Başlangıç değeri verilerek dizi oluşturmak
+```kotlin
 // Array<diziTuru>(diziUzunlugu){aktarilacakDegerler}
 // Bütün değerleri 3 olarak initialize etti.
 val dizi = Array<Int>(5){3} // <-- higher-order fonksiyon alıyor
-
-// Primitive array tanımı
-// Bir önceki tanımla benzer ancak higher-order fonksiyon almıyor.
-val dizi = CharArray(5) // <-- higher-order fonksiyon almıyor
-
-// Dizi değişkenlerini val olarak tanımlamak içindeki değerlerin değişemez olduğu anlamına gelmiyor. Ancak diziyi tanımladığınız değişkene farklı bir atama yapamazsınız.
-
-	// Bu kullanım doğrudur.
-    val dizi = arrayOf(4,2,3,4,5)
-	dizi[0]=3
-
-	// Bu kullanım hatalıdır.
-    val dizi = arrayOf(4,2,3,4,5)
-    val dizi2 = arrayOf(3,4,5,6)
-    dizi = dizi2
 ```
-### 4.2) Dizilere Erişmek
+
+Primitive array oluşturmak:
+```kotlin
+// Bir önceki tanımla benzer ancak higher-order fonksiyon almıyor.
+val dizi = IntArray(5) // <-- higher-order fonksiyon almıyor
+```
+Dizi oluşturma yöntemlerinin java dilindeki karşılıkları:
+```kotlin
+// Java karşılığı int olan dizi oluşturur.
+val dizi = IntArray(5)
+
+// Java karşılığı Integer olan dizi oluşturur.
+val dizi = arrayOf(13,12,55,23)
+
+// Java karşılığı String olan dizi oluşturur.
+val dizi = arrayOf("Ali","Veli","Ayşe","Burcu")
+
+// Java karşılığı Object olan dizi oluşturur.
+val dizi = arrayOf<Any>(12,"Ali",'a',true)
+
+// Java karşılığı String olan dizi oluşturur.
+val dizi = arrayOfNulls<String>(4)
+
+// Java karşılığı Integer olan dizi oluşturur.
+// Döngü ile bütün değerlerini 3 olarak değiştirir.
+val dizi = Array<Int>(5){3}
+```
+Dizilere erişmek için köşeli parantezleri ve index numaralarını kullanırız. Index numaraları 0'dan başlar.
 ```kotlin
 // Diziden veri almak
 // dizi[indexNumber] ve/veya dizi.get(indexNumber)
@@ -299,15 +415,70 @@ dizi[0] // 4
 dizi[4] // 5
 dizi[2] // 3
 dizi.get(1) // 2
-
-
-// Diziye değer ataması yapmak
+```
+Diziye değer ataması yapmak
+```kotlin
 // dizi[indexNumber] = Türe uygun değer ve/veya dizi.set(indexNumber, atanacakDeger)
 val dizi = arrayOf(4,2,3,4,5)
 dizi[0]=1 // index'i 0 olan 4 değerini 1 ile değiştirdi.
 dizi.set(3,2) // index'i 3 olan 4 değerini 2 ile değiştirdi.
 ```
 >dizilere erişmek için dizi[indexNumber] yöntemini kullanmanızı tavsiye ederim.
+
+Dizi değişkenlerini val olarak tanımlamak içindeki değerlerin değişemez olduğu anlamına gelmiyor. Ancak diziyi tanımladığınız değişkene farklı bir atama yapamazsınız.
+
+```kotlin
+// Bu kullanım doğrudur.
+val dizi = arrayOf(4,2,3,4,5)
+dizi[0]=3
+
+// Bu kullanım hatalıdır.
+val dizi = arrayOf(4,2,3,4,5)
+val dizi2 = arrayOf(3,4,5,6)
+dizi = dizi2
+```
+
+<br>
+<br>
+
+## 6) Range
+Belirli bir aralıkta sıralı liste oluşturmaya yarar. İki nokta ".." operatörü ya da rangeTo() fonksiyonu kullanılır.
+```kotlin
+val numbers = 1..100 // [1,100] 
+val numbers2 = 1.rangeTo(100)
+```
+Büyükten küçüğe doğru liste için .. operatörü çalışmaz downTo() fonksiyonu kullanılır.
+
+```kotlin
+val numbers = 100..1 // <-- Çalışır ancak boş liste döner
+val numbers2 = 100.downTo(1)
+val numbers3 = 100 downTo 1 // <-- infix fonksiyondur.
+```
+Oluşturduğumuz listenin tersini almak için reversed() özelliğini kullanabiliriz.
+```kotlin
+// Parantezli kullanım şarttır.
+val numbers1 = 1.rangeTo(100).reversed()
+val numbers2 = 100.downTo(1).reversed()
+```
+Başlangıç değeri dahil, bitiş değeri dahil olmayan liste için until() fonksiyonu kullanılır
+```kotlin
+val numbers2 = 1.until(100) // [1,100)
+val numbers3 = 1 until 100 // <-- infix fonksiyondur.
+val numbers = 1.rangeTo(99) // Aynı işlevi yapar
+```
+Belirli bir artış miktarı vererek liste oluşturmak
+```kotlin
+val numbers = 1..100 step(2) // 1,3,5,...,97,99
+val numbers2 = 1.rangeTo(100) step 2 // <-- step infix fonksiyondur.
+val numbers = 100.downTo(1) step(2) // 100,98,96,...,4,2
+```
+Oluşturduğumuz range hakkında bazı bilgileri alabiliyoruz.
+```kotlin
+val numbers = 100.downTo(1) step(2)
+println(numbers.step)
+println(numbers.first)
+println(numbers.last)
+```
 
 <br>
 <br>
