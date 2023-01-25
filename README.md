@@ -75,6 +75,7 @@ val number2: Int? // Boxed	: Değişken obje referansı olarak tutulmuştur.
 ```
 > Küçük veriler ile çalışırken performans kaybı çok değildir. Ama primitive tip olarak tutulması daha performanslıdır. Değişkene null değer gelmeyecekse, oluşturacağınız değişkeni nullable yapmamanızı öneririm.
 
+İki nullable değişken aynı değişkenden referans alsa da hafızada referans ettikleri yerler farklıdır. Nullable olmayan değişkenlerde ise aynıdır.
 ```kotlin
 fun main() {
     val number: Int = 1000
@@ -105,7 +106,7 @@ val result: Int? = null
 result?.plus(100) // <-- işlemi yapmaz
 result!!.plus(100) // <-- hata verir
 ```
-[Değişkenlere daha detaylı bakmak isterseniz](https://kotlinlang.org/docs/basic-types.html)
+>[Değişkenlere daha detaylı bakmak isterseniz](https://kotlinlang.org/docs/basic-types.html)
 
 <br>
 <br>
@@ -356,7 +357,8 @@ println(myString)
 + Referans eşitliği karşılaştırma operatörleri: ```===```, ```!==```
 + Sayısal verilerin karşılaştırlılması: ```<```, ```>```, ```<=```, ```>=``` ve primitive(ilkel) olmayan türler için ```compareTo()```
 + İndexlenmiş verilere erişim operatörü: ```[```, ```]```
-+ [Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
+
+>[Daha detaylı ve farklı operatörlere bakmak için](https://kotlinlang.org/docs/keyword-reference.html#operators-and-special-symbols)
 
 <br>
 <br>
@@ -423,7 +425,7 @@ val dizi = arrayOf(4,2,3,4,5)
 dizi[0]=1 // index'i 0 olan 4 değerini 1 ile değiştirdi.
 dizi.set(3,2) // index'i 3 olan 4 değerini 2 ile değiştirdi.
 ```
->dizilere erişmek için dizi[indexNumber] yöntemini kullanmanızı tavsiye ederim.
+>Dizilere erişmek için dizi[indexNumber] yöntemini kullanmanızı tavsiye ederim.
 
 Dizi değişkenlerini val olarak tanımlamak içindeki değerlerin değişemez olduğu anlamına gelmiyor. Ancak diziyi tanımladığınız değişkene farklı bir atama yapamazsınız.
 
@@ -479,6 +481,227 @@ println(numbers.step)
 println(numbers.first)
 println(numbers.last)
 ```
+
+<br>
+<br>
+
+
+## 7) Kontrol Yapıları
+### 7.1) if - else - else if
++ if kontrol yapısının parantezleri içerisi doğru veya yanlış belirtecek şeklide değer almalıdır.
++ Yazacağımız kodları süslü parantezler içerisine yazarız.
++ if süslü parantezleri içerisindeki kod, kontrolün doğru olması durumunda çalışır.
++ Kontrolün yanlış olması durumunda else süslü parantezleri içerisi çalışır.
++ Sadece if bloğu yazılabilir ancak sadece else bloğu yazılamaz.
+```kotlin
+fun main() {
+	// State kullanımı
+    print("Öğrenci misiniz?: ")
+
+    val answer = readln() // <-- Kullanıcıdan değer almak için kullanıyoruz
+
+    if(answer == "Evet"){ // <-- Kontrol ediyoruz.
+        println("Öğrenci") // <-- Kontrol sonucu doğru ise burası çalışır.
+    }else{
+        println("Öğrenci Değil") // <-- Kontrol sonucu yanlış ise burası çalışır.
+    }
+}
+```
+
+Kontrolün sonucu bir değişkene değer olarak atanacaksa, değişken atama operatöründen sonra if else blokları yazılabilir ve atanacak değerler süslü parantezler içerisinde verilebilir. {} içerisindeki son satir değer olarak verilir.
+```kotlin
+fun main() {
+	// Expression kullanımı
+    print("Öğrenci misiniz?: ")
+
+    val answer = readln()
+
+    val ogrenci = if(answer == "Evet"){ // <-- Kontrol (gelen değer "Evet ise")
+        "Öğrenci" // <-- Kontrol sonucu doğru ise değişkene değer olarak atanacak değer
+    }else{
+        "Öğrenci Değil" // <-- Kontrol sonucu yanlış ise değişkene değer olarak atanacak değer
+    }
+}
+```
+>[Expression kullanımları hakkında daha fazla bilgi almak için](https://kotlinlang.org/spec/expressions.html#expressions)
+
+Kotlinde expression kullanımı olduğundan dolayı ternary operatörü yoktur.
+```kotlin
+val isStudent = false
+val isStudent2 = isStudent ? "true" : "false" // <-- şeklinde kullanılmaz
+```
+
+Aynı değer için birden fazla kontrol sağlanması ve sağlandığında belirli bir işlemin yapılması isteniyorsa, else if kullanılır. (Şartlar teker teker kontrol edilir. Eğer şartı sağlayan bir kontrol bloğuna denk gelinir ise şartı sağlayan blok çalışır ve diğer şart blokları kontrol edilmez, atlanır.)
+
+```kotlin
+fun main() {
+    print("Notunuz: ")
+    val not = readln()
+    if(not.toInt()>=85){
+        println("Harf Notunuz: AA")
+    }else if (not.toInt()>=75){       // Eğer not 75 - 84 arası girildiyse
+        println("Harf Notunuz: BA")   // <-- Bu alan çalışır.
+    }else if (not.toInt()>=65){
+        println("Harf Notunuz: BB")
+    }else if (not.toInt()>=50){
+        println("Harf Notunuz: CC")
+    }else{
+        println("Harf Notunuz: FF")
+    } // Diğer kontroller atlanır ve bu satırdan kod akmaya devam eder.
+}
+```
+[Yukarıdaki örnekte birden fazla if bloğu şeklinde yazılsaydı ve 100 değeri girilseydi koşulu sağlayan bütün if blokları çalışırdı.](https://youtu.be/q9zuhv0ErXg?t=5413)
+```kotlin
+fun main() {
+    print("Notunuz: ")
+    val not = readln()
+    if(not.toInt()>=85) {
+        println("Harf Notunuz: AA")
+    }
+    if (not.toInt()>=75) {
+        println("Harf Notunuz: BA")
+    }
+    if (not.toInt()>=65) {
+        println("Harf Notunuz: BB")
+    }
+    if (not.toInt()>=50) {
+        println("Harf Notunuz: CC")
+    }
+    if(not.toInt()<50){
+        println("Harf Notunuz: FF")
+    }
+}
+```
+	
+	#### Program Çıktısı ####
+	Harf Notunuz: AA
+	Harf Notunuz: BA
+	Harf Notunuz: BB
+	Harf Notunuz: CC
+
+Birden fazla koşulun kontolünü aynı if parantezler içerisinde kontrol etmek istiyorsak Mantıksal operatörleri kullanabiliriz.
++ && - and - .and(x)	--> ve
++ || - or - .or(x)	--> veya
++ ! - not - .not(x)	--> değilse
+
+Yukarıda birden fazla çıktı veren ard arda if oluşturduğumuz blokta mantıksal operatörleri deneyecek olursak. Alttaki kodda 0-100 arasında verilen değerlerde sadece tek blok çalışacaktır.
+```kotlin
+fun main() {
+    print("Notunuz: ")
+    val not = readln()
+    if(not.toInt()>=85 && not.toInt()<=100) {
+        println("Harf Notunuz: AA")
+    }
+    if (not.toInt()>=75 && not.toInt()<85) {
+        println("Harf Notunuz: BA")
+    }
+    if (not.toInt()>=65 && not.toInt()<75) {
+        println("Harf Notunuz: BB")
+    }
+    if (not.toInt()>=50 && not.toInt()<65) {
+        println("Harf Notunuz: CC")
+    }
+    if(not.toInt()<50 && not.toInt()>=0){
+        println("Harf Notunuz: FF")
+    }
+}
+```
+> Bu kod her if bloğunun için kontrol edildiğinden dolayı performans kaybına sebep olacaktır. Mantıksal operatörlere örnek göstermek amacı ile yazılmıştır. Doğru bir if kullanımı değildir. else if kullanılmalıydı.
+
+iki sayısal değer karşılaştırılıyorsa ve değerlerin tipleri farklı ise ilk önce tür dönüşümü yapılmalıdır.
+```kotlin
+if(10==10L.toInt()){ // <-- Çalışır
+	print("true")
+}
+if(10.toLong()==10L){ // <-- Çalışır
+	print("true")
+}
+if(10==10L){ // <-- Çalışmaz
+	print("true")
+}
+```
+<br>
+
+### 7.2) when
+switch case yapısı ile genel olarak aynıdır. case içerisine break komutu yazmaya gerek yoktur. Parantezler içerisine kontrol edilecek deger yazılır. Hangi değerle karşılaştırılacağı, "->" operatörü ve yapılacak işlemler yazılır. Bir satırda farklı koşulların aynı işlemi yapmasını istiyorsak koşulları virgül ile ayırırız.
+```kotlin
+fun main() {
+    val ulke = readln()
+    when(ulke){
+        "tr", "az" -> println("Türkiye") // <-- Virgül veya anlamındadır.
+        "fr" -> println("Fransa")
+        "jp" -> println("Japonya")
+        "us" -> println("Amerika")
+    }
+}
+```
+İşlemleri süslü parantezler içerisinde de yazabiliriz.
+```kotlin
+fun main() {
+    // {} ile kullanım
+    val ulke = readln()
+    when(ulke) {
+        "tr", "az" -> {
+            println("Türkiye")
+        }
+
+        "fr" -> {
+            println("Fransa")
+        }
+
+        "jp" -> {
+            println("Japonya")
+        }
+
+        "us" -> {
+            println("Amerika")
+        }
+    }
+}
+```
+
+if - else tarzında da kullanabiliz. Kontrol edilecek değer parantezler içerisinde olmaz, kontrol eden değerin olduğu bölümde yazılır. when parantezleri kaldırılır. Bu kullanımın getirisi &&, ||, and, or, xor gibi ifadeleri kullanabilmemizdir. 
+```kotlin
+fun main() {
+    val ulke = readln()
+    when{ // <-- parantezler silinir
+        ulke == "tr" || ulke == "az" -> println("Türkiye")
+    ulke == "fr" -> println("Fransa")
+    ulke == "jp" -> println("Japonya")
+    ulke == "us" -> println("Amerika")
+    }
+}
+```
+
+if - else gibi expression kullanımına sahiptir. Hiç bir koşulun sağlanmadığı durumda değişkene değer atayabilmek için else bloğu yazmak zorunludur.
+```kotlin
+fun main() {
+    val ulkeKisaltmasi = "tr"
+    val ulkeAdi = when(ulkeKisaltmasi){ // <-- parantezler silinir
+        "tr", "az"  -> {
+            println("Türkiye") // Gelen değer tr olduğu için ilk önce Türkiye yazdırır
+            "Türkiye" // sonra değişkene Türkiye değerini atar.
+        }
+        "fr" -> {
+            println("Fransa")
+            "Fransa"
+        }
+        "jp" -> {
+            println("Japonya")
+            "Japonya"
+        }
+        "us" -> {
+            println("Amerika")
+            "Amerika"
+        }else -> { // <-- else bloğu
+            println("Bilinmeyen ülke kodu.")
+            "x"
+        }
+    }
+}
+```
+> is anahtar sözcüğü bir class'ın referansı olup olmadığına bakar
+
 
 <br>
 <br>
