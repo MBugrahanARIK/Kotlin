@@ -385,6 +385,8 @@ val dizi = Array<Int>(5){3} // <-- higher-order fonksiyon alıyor
 Primitive array oluşturmak:
 ```kotlin
 // Bir önceki tanımla benzer ancak higher-order fonksiyon almıyor.
+// ByteArray() ShortArray() IntArray()
+// LongArray() DoubleArray() FloatArray()
 val dizi = IntArray(5) // <-- higher-order fonksiyon almıyor
 ```
 Dizi oluşturma yöntemlerinin java dilindeki karşılıkları:
@@ -702,17 +704,164 @@ fun main() {
 ```
 > is anahtar sözcüğü bir class'ın referansı olup olmadığına bakar
 
+<br>
+<br>
+
+## 8) Döngüler
+Aynı işlemi belirli şartlan sağlandığı taktirde tekrar terkar belirli bir düzende yapmaya yarar.
+
+### 8.1) For Döngüsü
+
+```kotlin
+fun main() {
+    // C#, java'daki gibi for(int i=0;i<10;i++) şeklinde bir yapıda değildir.
+    // for(value in Range), for(value in Array) benzeri bir yapısı vardır.
+    // value ismi bir belirteçtir istenilen mantıklır bir şey yazılabilir
+    for(value in 1..100){
+        println("$value") // 1'den 100'e kadar yazı yazar.
+    }
+}
+```
+Bir dizi ile kullanımı
+```kotlin
+fun main() {
+    // Dizideki verileri teker teker yazar.
+    val name = arrayOf("Ali","Ayşe","Tezcan","Veli","Burak")
+
+    for(value in name){
+        println(value) // <-- Zaten String bir değer
+    }
+}
+```
+Bir diziyiden veriyi indexleri ile çekmek
+```kotlin
+fun main() {
+    val name = arrayOf("Ali","Ayşe","Tezcan","Veli","Burak")
+
+    for(value in name.indices){
+        println("$value.indexteki değer: ${name[value]}")
+    }
+}
+```
+Bir diziden hem index bilgisini hem içindeki veriyi almak. ([Destructuring declarations](https://kotlinlang.org/docs/destructuring-declarations.html) kullanımı)
+
+```kotlin
+fun main() {
+    val name = arrayOf("Ali","Ayşe","Tezcan","Veli","Burak")
+
+    for((index, value) in name.withIndex()){
+        println("$index.indexteki değer: $value")
+    }
+}
+```
+### 8.2) Repeat
+Parantezler içerisine kaç defa tekrarlanacağı yazar. "it" ile hangi aşamada olduğunu görebiliriz. it 0'dan başlar.
+```kotlin
+fun main() {
+    // repeat(size){}
+    // aşağıdaki program 0'dan 9'a kadar rakamları yazacak
+    repeat(10){// // <-- higher-order fonksiyon
+        println(it)
+    }
+}
+```
+
+### 8.4) Continue, Break Ve Label
+Döngüde ilerlerken eğer kod continue karşılaşırsa döngü süslü parantezleri içerisinde continue'dan sonraki kodları işlemeden bulunduğu döngünün bir sonraki adımına geçer.
+```kotlin
+fun main() {
+    // Sadece çift sayıları yazan for döngüsü
+     for(value in 1..100){
+        if (value%2==1){ // <-- Eğer 2'ye bölümünden kalan 1 ise
+            continue // <-- Devam et
+        }
+         println(value)
+    }
+}
+```
+Birden fazla döngüde continue'nun farklı bir döngüden devam etmesini istersek
+```kotlin
+fun main() {
+    // iç içe for döngülerinde continue'nun label kullanarak ilk döngüye dönmesi
+    // Dönülecek döngü için labelAdi@
+    // Dömeyi istediğimiz kod için continue@labelAdi
+    // Aşağıdaki kod 1 ve 2 rakamlarını yazcak ve bunu 5 defa tekrarlayacaktır.
+    returnLabel@for(i in 1..5){
+        for(j in 1..5){
+            if (j==3){ // <-- j eğer 3'e eşitse
+                continue@returnLabel // <-- Belirtilen label'a dön
+            }
+            println(j)
+        }
+    }
+}
+```
+Döngüde ilerlerken eğer kod break karşılaşırsa döngü süslü parantezleri içerisinde break'den sonraki kodları işlemez ve bulunduğu döngüyü kırar(döngüden çıkar).
+```kotlin
+fun main() {
+    // 1'den 5'e kadar olan rakamları yazdıran for döngüsü
+    for(value in 1..100){
+        if (value%5==0){ // <-- Eğer 5'e bölümünden kalan 0 ise
+            break // <-- Döngüyü kır
+        }
+        println(value)
+    }
+}
+```
+
+İç içe döngülerde break kullanıldığında, içteki döngüyü kırar ve bir üstteki döngüden devam eder.
+```kotlin
+fun main() {
+    // İkinci döngünün j değeri 3 olduğunda döngü kırılacak ve ilk döngüden devam edecek
+    // Aşağıdaki kod 1 ve 2 rakamlarını yazcak ve bunu 5 defa tekrarlayacaktır.
+    for(i in 1..5){
+        for(j in 1..5){
+            if (j==3){ // <-- j eğer 3'e eşitse
+                break // Bu döngüyü kır
+            }
+            println(j)
+        }
+    }
+}
+```
+Label ve break kullanarak istenilen döngü için break kodunun işlenmesi ve döngüden çıkmak.
+```kotlin
+fun main() {
+    // İkinci döngünün j değeri 3 olduğunda ilk döngü kırılacak
+    // Aşağıdaki kod 1 ve 2 rakamlarını yazcak
+    breakLabel@for(i in 1..5){
+        for(j in 1..5){
+            if (j==3){ // <-- j eğer 3'e eşitse
+                break@breakLabel // <-- Belirtilen döngüyü kır
+            }
+            println(j)
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 <br>
 <br>
 
 ## Kişisel Notlarım
 #### Daha Sonrasında Araştır
++ Destructuring declarations
++ infix fonksiyonlar
++ inline function
 + Paralelleştirme
 + Farklı thread'leri kullanmak
 + Data structures
-+ Primitive tipler, referans tipler
-+ infix fonksiyonlar
 #### Yapmayı Dene
 + Warning'leri çözmeye çalış
 #### Kotlin İş Görüşmelerinde Sorulabilecek Sorular
