@@ -530,7 +530,8 @@ fun main() {
 Kotlinde expression kullanımı olduğundan dolayı ternary operatörü yoktur.
 ```kotlin
 val isStudent = false
-val isStudent2 = isStudent ? "true" : "false" // <-- şeklinde kullanılmaz
+val isStudent2 = isStudent ? "true" : "false" // <-- Şeklinde kullanılmaz
+val isStudent2 = if (isStudent2) "true" else "false" // <-- Şeklinde kullanılabilir.
 ```
 
 Aynı değer için birden fazla kontrol sağlanması ve sağlandığında belirli bir işlemin yapılması isteniyorsa, else if kullanılır. (Şartlar teker teker kontrol edilir. Eğer şartı sağlayan bir kontrol bloğuna denk gelinir ise şartı sağlayan blok çalışır ve diğer şart blokları kontrol edilmez, atlanır.)
@@ -754,6 +755,7 @@ fun main() {
     }
 }
 ```
+
 ### 8.2) Repeat
 Parantezler içerisine kaç defa tekrarlanacağı yazar. "it" ile hangi aşamada olduğunu görebiliriz. it 0'dan başlar.
 ```kotlin
@@ -762,6 +764,19 @@ fun main() {
     // aşağıdaki program 0'dan 9'a kadar rakamları yazacak
     repeat(10){// // <-- higher-order fonksiyon
         println(it)
+    }
+}
+```
+
+### 8.3) While
+Diğer dillerdeki kullanımı ile aynıdır. parantezler içerisine koşul verilir, koşul doğru olduğu taktirde döngü süslü parantezleri içerisindeki işlemler yapılır.
+
+```kotlin
+fun main() {
+    // 1'den 10'a kadar sayıları yazdıran program
+    var i = 0
+    while(i<10){
+        println(++i) // i++ olsaydı 0'dan 9'a kadar yazardı
     }
 }
 ```
@@ -840,8 +855,124 @@ fun main() {
 }
 ```
 
+<br>
+<br>
 
+## 9) Fonksiyonlar
+Bir veya bir çok işlemin tekrar tekrar aynı şekilde yapılması gerektiği durumlarda fonksiyonları kullanırız. Fonksiyonlar "fun" ("fun"ction) keyword'ü (anahtar kelimesi) ile başlar. Fonksiyon adı verilir. Parametre parantezleri açılır "()" ve süslü parantezler açılır "{}". İki nokta üst üste ile geri dönüş değeri yazılabilir. Her fonksiyonun bir geri dönüş değeri vardır. Geri dönüş değeri verilmeyen fonksiyonlar Unit boş tipini geri döndürür.
+```kotlin
+// Her program açtığımızda bir main fonksiyonu çalışır.
+fun main() {
+}
+// Geri dönüş değeri olmadığı için main fonksiyonu,
+// aslında ": Unit" değerini gizli olarak alır.
+fun main(): Unit {
+}
+```
 
+Geri dönüş değeri Unit'ten farklı fonksiyonlar return anahtar kelimesi ile belirtilen geri dönüş tipine göre uygun bir geri dönüş sağlamalıdır.
+```kotlin
+// sum fonksiyonu Int tipinden geri dönüş sağlıyor
+fun sum(): Int{
+    return 0 // <-- geri dönüşü 0
+}
+```
+
+parametre almış bir fonksiyon tanımı
+```kotlin
+// sum fonksiyonu Int tipinden geri dönüş sağlıyor.
+// Gelen iki sayıyı toplayıp geri döndürüyor.
+fun sum(number: Int, number2: Int): Int{
+    return number+number2
+}
+```
+
+Oluşturulmuş bir fonksiyonu çağırmak
+```kotlin
+// sum fonksiyonu Int tipinden geri dönüş sağlıyor.
+// Gelen iki sayıyı toplayıp geri döndürüyor.
+fun sum(number: Int, number2: Int): Int{
+    return number+number2
+}
+fun main(){
+    val topla = sum(10,20) // <-- bir değişkene değer olarak atamak
+    println(topla) // <-- değişkenden yazdırmak
+    println(sum(20,30)) // <-- Direkt fonksiyondan gelen değeri yazdırmak
+}
+```
+
+Bir fonksiyonun parametresine "=" atama operatörü ile varsayılan(default) değer atayabiliriz.
+```kotlin
+// mesaj ve lang alanına eğer bir değer gelmez ise "" ve "tr" olarak kabul et
+// Bu yapı aynı zamanda bir foksiyon overloading işlemidir.
+fun message(i: Int, message: String ="", date: String, lang: String="tr")
+{ /* ... */}
+
+// Fonksiyonu çağırırken parametreler yazılarak ya da direkt değer verilebilir.
+// Direkt
+message(1,"deneme","10.10.2023", "tr")
+
+// Parametreler belirtilerek
+message(i=1, message = "deneme2", date = "10.10.2023", lang = "tr")
+
+// Eğer varsayılan parametreye değer vermeyeceksek,
+// parametre adlarını kullanarak değer vermemiz gerekir.
+message(i = 1, date = "deneme")
+```
+
+Bir fonksiyon Unit değilse ve süslü parantez içerisindeki kod sadece tek satırda geri dönüş değeri sağlayacaksa bunu "=" operatörü ile yapabiliriz. Bu foksiyonlar için expression kullanımıdır.
+```kotlin
+fun sum(first: Int, second: Int): Int{
+    return first + second
+}
+// Aynı işlevi görür
+fun sum(first: Int, second: Int): Int = first + second
+```
+
+Sayısını tam olarak bilmediğimiz, bir çok aynı tipte parametreye sahip bir fonksiyon yazmamız gerekirse "vararg" kullanırız.
+```kotlin
+// Eğer vararg'dan sonra başka bir parametre var ise java karşılığı olarak array'dir.
+// Eğer sonunda bir parametre yoksa java karşılığı String... şeklindedir.
+// Çok küçük bir performans farkı yaratır.
+fun getUserMessage(vararg message: String, key: Int) {
+    // message verilerine erişmek için
+    message[0]
+    message.get(0)
+}
+getUserMessage("Merhabaa","Nasılsın?","Bugün hava kapalı.", key = 1)
+getUserMessage("Merhabaa","Nasılsın?", key = 2)
+getUserMessage("Merhabaa", key = 1)
+
+// Eğer parametre olarak array verilecekse başına yıldız * koyulması gerekir.
+getUserMessage(*arrayOf("Merhabaa","Nasılsın?","Bugün hava kapalı."), key = 1)
+```
+
+Kendini çağıran fonksiyonlar yazabiliriz.
+```kotlin
+// Faktöriyel hesabı yapan bir fonksiyon
+fun factorial(i: Int):Int{
+    if (i>=2) {
+        return i*factorial(i-1)
+    }
+    return i
+}
+fun main(){
+    println(factorial(5))
+}
+
+```
+Fonksiyon içerisinde fonksiyon tanımı yapılabiliyor. Ancak içteki fonksiyona dışarıdan erişim mümkün değildir. -------------------------- Daha sonra detaylı anlatımı yapılacak
+```kotlin
+fun takeCube(number: Int): Int{
+    fun takeSquare(number: Int): Int{
+        return number*number
+    }
+    return number*takeSquare(number)
+}
+```
+
+<br>
+<br>
 
 
 
@@ -859,6 +990,8 @@ fun main() {
 + Destructuring declarations
 + infix fonksiyonlar
 + inline function
++ first class citizen
++ Fonksiyonel ve nesne yönelimli programlama arasında ne fark var?
 + Paralelleştirme
 + Farklı thread'leri kullanmak
 + Data structures
