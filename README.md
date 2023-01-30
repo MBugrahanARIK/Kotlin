@@ -85,8 +85,8 @@ val number2: Int? // Boxed	: Değişken obje referansı olarak tutulmuştur.
 ```kotlin
 fun main() {
     val number: Int = 1000
-    val number2: Int = number
-    val number3: Int = number
+    val number2: Int? = number
+    val number3: Int? = number
     println(number2 === number3) // false
     println(number2 == number3) // true
 
@@ -517,6 +517,7 @@ val numbers2 = 100.downTo(1).reversed()
 Başlangıç değeri dahil, bitiş değeri dahil olmayan liste için until() fonksiyonu kullanılır
 
 ```kotlin
+val numbers2 = 1..<100 // [1,100) Kotlin 1.8 itibari ile kullanılıyor.
 val numbers2 = 1.until(100) // [1,100)
 val numbers3 = 1 until 100 // <-- infix fonksiyondur.
 val numbers = 1.rangeTo(99) // Aynı işlevi yapar
@@ -554,11 +555,11 @@ println(numbers.last)
 
 ```kotlin
 fun main() {
-    // State kullanımı
     print("Öğrenci misiniz?: ")
 
     val answer = readln() // <-- Kullanıcıdan değer almak için kullanıyoruz
 
+    // State kullanımı
     if (answer == "Evet") { // <-- Kontrol ediyoruz.
         println("Öğrenci") // <-- Kontrol sonucu doğru ise burası çalışır.
     } else {
@@ -571,11 +572,11 @@ Kontrolün sonucu bir değişkene değer olarak atanacaksa, değişken atama ope
 
 ```kotlin
 fun main() {
-    // Expression kullanımı
     print("Öğrenci misiniz?: ")
 
     val answer = readln()
 
+    // Expression kullanımı
     val ogrenci = if (answer == "Evet") { // <-- Kontrol (gelen değer "Evet ise")
         "Öğrenci" // <-- Kontrol sonucu doğru ise değişkene değer olarak atanacak değer
     } else {
@@ -602,7 +603,7 @@ fun main() {
     val not = readln()
     if (not.toInt() >= 85) {
         println("Harf Notunuz: AA")
-    } else if (not.toInt() >= 75) {       // Eğer not 75 - 84 arası girildiyse
+    } else if (not.toInt() >= 75) {   // Eğer not 75 - 84 arası girildiyse
         println("Harf Notunuz: BA")   // <-- Bu alan çalışır.
     } else if (not.toInt() >= 65) {
         println("Harf Notunuz: BB")
@@ -1209,8 +1210,14 @@ Extension fonksiyonlar üzerinde değişiklik yapamadığımız Readonly class'l
 // String class'ına Example bir fonksiyon eklemek
 fun String.Example(i: Int): String { /*...*/ }
 
+// Kullanımı
+"try".Example(10)
+
 // Yukarıdaki örnek şartları sağladığı için infix fonksiyon olarak da yazılabilir
 infix fun String.Example(i: Int): String { /*...*/ }
+
+// infix kullanımı
+"try" Example 10
 ```
 
 Extension fonksiyon bir class içerisine yazılırsa, o class içerisinde kullanılabilir olurlar.
@@ -1303,13 +1310,261 @@ class count: numbers(){
 ```
 
 <br>
-#### higher-order Fonksiyonlar
+
+#### higher-order Fonksiyonlar "{ }"
+
+higher-order fonksiyonlar, bir fonksiyona parametre olarak verilebilen fonksiyonlardır. higher-order fonksiyonlar, fonksiyon body'sidir.
+
+```kotlin
+// En basit ve en anlaşılır hali ile aşağıdaki kullanım şeklindedir.
+// foo fonksiyonu parametre olarak bir fonksiyon almakta
+// boo fonksiyonu foo'nun parametre olarak alabilidiği higher-order fonksiyon şeklindedir.
+// Çağrımı ise foo(::boo) şeklindedir.
+
+// Higher-order fonksiyon alan fonksiyonun higher-order parametresine isim vermek gerekmez.
+// Alacağı tipi yazmak yeterlidir.
+// Yani aşağıdaki tanımda "(message: String)" sadece (String) olarak da yazılabilir
+
+// Geri dönüş değeri Unit, String bir parametreye sahip 
+// higher-order fonksiyon alan bir fonksiyon
+fun foo(higherOrderFunction: (message: String) -> Unit) {
+    higherOrderFunction("Merhaba")
+}
+
+// Bu fonksiyon tanımı üstteki higherOrderFunction parametresi
+// ile aynı yapıya sahip olduğu için kullanıma uygundur.
+// Higher-order function
+fun boo(message: String) {
+    println(message)
+}
+
+fun main() {
+    // Higher-order fonksiyon çağrımı
+    foo(::boo)
+}
+```
+
+Parametrye "=" ile default değer ataması yapmak
+
+```kotlin
+// = { println(it) }
+fun foo(higherOrderFunction: (message: String) -> Unit = { println(it) }) { /*...*/ }
+```
+
+Direkt fonksiyon gövdesi vermek
+
+```kotlin
+fun foo(higherOrderFunction: (message: String) -> Unit) {
+    higherOrderFunction("Merhaba")
+}
+fun main() {
+    /* foo(::boo) işlemi aslında şunu yapmaktadır
+    foo({ println(it) }) 
+    fonksiyon adı yazıldı.
+    fonksiyon parametre parantezleri açılıp,
+    istenen parametre yani süslü parantezler içerisinde fonksiyon gövdesi verildi.
+    */
+    foo({ // eğer birden fazla parametre gerekseydi
+          // i: Int, s: String -> gibi yazılabilirdi.
+        println(it) // bu tip tek parametreli kullanımlar için it ön tanımlı olarak gelir.
+    })
+
+    // yukarıdaki kullanım için parametre parantezleri açmak şart değildir.
+    foo {
+        println(it)
+    }
+}
+```
+
+Değişkenlere higher-order fonksiyon atamak
+
+```kotlin
+fun foo(higherOrderFunction: (message: String) -> Unit) {
+    higherOrderFunction("Merhaba")
+}
+// String değer alan String geri dönüşü olan bir higher-order parametre istiyor
+fun foo2(higherOrderFunction: (String) -> String) {
+    // Burada returnValue'a değer olarak verilmiştir
+    // Ancak bir değişkene değer olarak vermek gerekmez
+    val returnValue = higherOrderFunction("Merhaba") 
+    println(returnValue)
+}
+
+fun main() {
+    // -> lamda okundan önce fonksiyon parametreleri yazılır. Virgül ile ayrılır
+    // tek parametre için yazmak şart değildir "it" ön tanımlı parametre kullanılabilir.
+    // Değişkene fonksiyon body'si atamak
+    val boo = { message: String -> // parametreler lamda işaretinden önce tanımlandı.
+        println(message)
+    }
+
+    // ismi olmayan (anonymous) fonksiyon tanımlamak
+    val boo2 = fun(message: String) {
+        println(message)
+    }
+
+    // Expression kullanımı ile değişkene fonksiyon body'si tanımlamak
+    val boo3 = fun(message: String) = println(message)
+    
+    // Çağırmak
+    foo(boo)
+    foo(boo2)
+    foo(boo3)
+    
+    // Değişkene String değer döndüren bir higher-order fonksiyon ataması yapmak
+    val boo4 = fun(message: String): String {
+        return message
+    }
+
+    // Expression kullanımı
+    val boo5 = fun(message: String) = message
+
+    val boo6 = { message: String ->
+        message // Geri dönüş değeri direkt verilir ve sonda olur.
+    }
+    // Çağırmak
+    foo2(boo4)
+    foo2(boo5)
+    foo2(boo6)
+}
+```
+
+Infix ve extension kullanımı
+
+```kotlin
+// Infix koşullarını sağlaması için higher-order fonksiyon alan bir fonksiyon olması 
+// higher order tanımındaki parametrenin tek parametre alabiliyor olması demek değildir.
+// aşağıdaki örnekte "higherOrderFunction: (String) -> Unit" şeklindeki kullanım
+// (String, Int) şeklinde birden fazla parametre de içerebilirdi.
+class Too {
+    infix fun foo(higherOrderFunction: (String) -> Unit) {
+        higherOrderFunction("Merhaba")
+    }
+}
+
+// Extension, infix(şartlar sağladığı için) kullanımı
+infix fun Int.foo2(higherOrderFunction: (String) -> Unit) {
+    higherOrderFunction("Merhaba")
+}
+
+fun boo(message: String) {
+    println(message)
+}
+
+fun main() {
+    val something: Too = Too()
+    something foo ::boo // infix olarak çağırmak
+
+    10.foo2(::boo) // extension olarak çağırmak
+    10 foo2 ::boo // infix, extension olarak çağırmak
+}
+```
 
 
 
 
+Tüm kullanımlar ile tekrar
 
+```kotlin
+var count = 0 // sayaç
 
+// Parametre olarak higher-order fonksiyon alan bir fonksiyon oluşturmak
+fun foo(higherOrderFunction: (String) -> Unit) {
+    higherOrderFunction("${++count} Merhaba")
+}
+
+// String tipinden parametre alan String döndüren ve default değeri olan tanım
+fun foo2(higherOrderFunction: (String) -> String = { it }) {
+    val returnValue = higherOrderFunction("${++count} Merhaba")
+    println(returnValue)
+}
+
+// infix olarak tanımlamak
+class Too {
+    infix fun foo3(higherOrderFunction: (String) -> Unit) {
+        higherOrderFunction("${++count} Merhaba")
+    }
+}
+
+// Extension, infix(şartlar sağladığı için) kullanımı
+infix fun Int.foo4(higherOrderFunction: (String) -> Unit) {
+    higherOrderFunction("${++count} Merhaba")
+}
+
+// !!! Çağırma kısmında foo5 çağrılmıyor
+// iç içe tanımda nasıl çağırmam gerektiğini tam anlayabilmiş değilim.!!!
+// Parametresi higher order fonksiyon olan higher order fonksiyon alan fonksiyon tanımı
+fun foo5(baseFunction: (inFunction: (messageId: Int) -> Int) -> Unit) {
+    baseFunction {
+        println("${++count} Merhaba")
+        5
+    }
+}
+
+// Higher-order fonksiyon oluşturmak
+fun boo(message: String) {
+    println(message)
+}
+
+// Geri dönüş değeri String olan bir higher-order fonksiyon oluşturmak
+fun boo2(message: String): String {
+    return message
+}
+
+fun main() {
+    // Değişkene higher-order fonksiyon ataması yapmak
+        val boo3 = fun(message: String) {
+            println(message)
+        }
+    
+        // Expression kullanımı
+        val boo4 = fun(message: String) = println(message)
+    
+        val boo5 = { message: String ->
+            println(message)
+        }
+
+    // Değişkene String değer döndüren bir higher-order fonksiyon ataması yapmak
+        val boo6 = fun(message: String): String {
+            return message
+        }
+    
+        // Expression kullanımı
+        val boo7 = fun(message: String) = message
+    
+        val boo8 = { message: String ->
+            message // Geri dönüş değeri direkt verilir ve sonda olur.
+        }
+
+    // Higher-order fonksiyon alan fonksiyona direkt body göndererek çağırmak
+    foo({
+        println(it)
+    })
+    foo {
+        println(it)
+    }
+    foo2 {
+        it
+    }
+
+    // Fonksiyonları çağırmak
+    foo(::boo)
+    foo(boo3)
+    foo(boo4)
+    foo(boo5)
+
+    foo2() // foo2 Default değer alıyor
+    foo2(::boo2)
+    foo2(boo6)
+    foo2(boo7)
+    foo2(boo8)
+
+    val something: Too = Too() // Class'tan nesne yaratmak
+    something foo3 ::boo // infix olarak çağırmak
+    10.foo4(::boo) // Extension(receiver Int) olarak çağırmak
+    10 foo4 ::boo // infix, extension(receiver Int) olarak çağırmak
+}
+```
 
 
 
@@ -1344,6 +1599,8 @@ class count: numbers(){
 #### Kotlin İş Görüşmelerinde Sorulabilecek Sorular
 + val ve var'ın farkı nedir?
 + const val ve val'ın farkı nedir?
++ higher-order functions
++ higher-order functions vs interface
 #### Ek Bilgi
 + Android tuş kilidinden çıkılınca bütün widge'ler tekrar yüklenir.
 #### Ek Notlar
