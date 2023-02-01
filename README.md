@@ -1240,6 +1240,16 @@ fun main() {
 }
 ```
 
+Kotlinde her field/değişken aslında birer property olduğu için property'de extension edilebilir. Bu işlem de arkada bir field/değişken oluşturmuyor, sadece get ve set fonksiyonlarını oluşturuyor.
+
+```kotlin
+class Count{
+}
+// count class'ı içerisine someProperty adında bir değişken tanımlamak
+val Count.someProperty:Int
+    get() = 10
+```
+
 Extension fonksiyon içerisinde this kullanırsak, this receiver olan class'ın içerisini işaret eder. Extension fonksiyon yazılı olan class'ı işaret etmesini istiyorsa this'e işaret edeceği class adını vermek gerekir.
 
 ```kotlin
@@ -1460,9 +1470,6 @@ fun main() {
 }
 ```
 
-
-
-
 Tüm kullanımlar ile tekrar
 
 ```kotlin
@@ -1566,11 +1573,298 @@ fun main() {
 }
 ```
 
-
-
-
 <br>
 <br>
+
+## 10) Class Temelleri
+
+En temel class oluşturma biçimi class keyword'ü, isim ve süslü parantezler şeklindedir.
+
+```kotlin
+class Car { /*...*/ }
+```
+
+Bir class ile ilgili işlem yapmak için, class'tan bir nesne oluşturmamız gerekiyor.
+
+```kotlin
+class Car {
+    var carColor: String = "Red"
+    fun showColor() {
+        println(carColor)
+    }
+}
+
+fun main() {
+    // Class içerisindeki bilgilere ulaşmak için class özelliklerini
+    // kendisinde barındıran bir obje/nesne yaratmamız gerekiyor.
+    val car: Car = Car()
+    val otherCar = Car() // direkt eşitlik olarak da verilebilir bir sakınca yoktur.
+
+    // Obje üzerindeki bilgilere erişmek . operatörü ile mümkündür
+    car.showColor()
+
+    println("-----------------------------------------------")
+    // Eriştiğimiz bilgiler objenin kendi bilgileridir.
+    // Eğer car objesindeki bilgileri değiştirirsem
+    // otherCar objesindeki bilgiler değişmez
+    // her obje kendi property ve fonksiyonuna sahiptir.
+    car.carColor = "Yellow"
+    car.showColor() // Yellow
+    otherCar.showColor() // Red
+}
+```
+
+Class'tan nesne oluşturmak ve fonksiyondan geri dönüş değerini değişkene atama işlemleri benzer bir yapıya sahip olduğu için class isimlerinin büyük harfle başlanması yazılı olmayan bir kuraldır.
+
+```kotlin
+class Car {}
+
+fun car(): String = ""
+
+fun main() {
+    // Car class'ından nesne oluşturuyor.
+    val araba: Car = Car()
+    val araba2 = Car()
+
+    // fonksiyon geri dönüş değeri alıyor
+    val araba3 = car()
+}
+```
+
+### 10.1) Constructor'lar (Yapıcı Methodlar)
+
+Constructor'lar, yapıcı methodlar class oluşturulduğu anda çalışırlar. Class'lar primary ve secondary constructor olmak üzere iki constructor'a(Yapıcı method) sahiptir. primary constructor class isminden sonra parametrelerini alır ve gövdesi class gövdesinin içerisinde init anahtar kelimesinden sonra gelir. secondary constructor'lar constructor keyword'ünden sonra yazılır ve primary constructor'ı this keyword'ü ile işaret etmelidir. This parantezleri içerisinde primary constructor'ın istediği değerleri yazmak zorunludur. secondary constructor çalışacaksa ilk önce this ile gelen parametreler ile beraber primary constructor çalışır ardından secondary constructor çalışır. 
+
+```kotlin
+class Car(color: Int, model: String) {
+    init { // primary constructor gövdesi
+        println("primary constructor çalıştı")
+        println("renk: $color")
+        println("model: $model")
+    }
+
+    // istenilen değerler burada direkt verilmiştir
+    // 1. secondary constructor
+    constructor(year: String) : this(1, "Audi") {
+        println("1. secondary constructor çalıştı")
+        println("yıl: $year")
+    }
+
+    // istenilen değerler burada gelen değerlerden verlilmiştir.
+    // 2. secondary constructor
+    constructor(color: Int, model: String, year: String, km: Int) : this(color, model) {
+        println("2. secondary constructor çalıştı")
+        println("yıl: $year")
+    }
+}
+
+fun main() {
+    // Sadece tek parametre verdiğimiz için 1. secondary constructor'a gider
+    val araba: Car = Car("2023")
+
+    // iki parametre aldığı için primary constructor içerisine gider
+    val araba2: Car = Car(1, "Audi")
+
+    // bütün parametreleri aldığı için 2. secondary constructor içerisine gider
+    val araba3: Car = Car(1, "Audi", "2023",10000)
+}
+```
+
+Primary constructor yazmak zorunlu değildir. Primary constructor yazılmasa bile arka tarafta gözükmeyen default bir primary constructor oluşturulur. Primary constructor yazılmadığı durumlarda secondary constructor yazmakta bir sorun yoktur. Primary constructor yazılmadığı için this anahtar kelimesi ile primary parametreleri verilmesi gerekmez.
+
+```kotlin
+class Car {
+    constructor(color: Int, model: String) {
+    }
+
+    constructor(color: Int, model: String, year: String) {
+    }
+
+    constructor(color: Int, model: String, year: String, km: Int) {
+    }
+}
+```
+
+### 10.2) Visibility Modifiers (Görünürlük Düzenleyicileri)
+
+Kotlinde dört tip erişim belirleyicisi vardır. Eğer herhangi bir erişim belirleyicisi verilmemiş ise standart olarak ```public``` olarak işaretler.
+
++ ```public```: Her yerden erişilebilen.
++ ```private```: Sadece oluşturulduğu class içerisinde erişilebilen.
++ ```protected```: Oluşturulduğu class ve oluşturulduğu class'ı miras alınan classlar içerisinde erişilebilen
++ ```internal```: Aynı modül içerisinde ```public``` gibi, modül dışında ```private``` gibi davranır.
+
+```kotlin
+open class SomeClass {
+    // default public her yerden erişilebilir.
+    val i = 1
+
+    // public yazmaya gerek yok.
+    public val j: Int = 1
+
+    // SomeClass içerisinde kullanılabilir.
+    private val k: String = "asd"
+
+    // SomeClass içerisinde ve SomeClass'ı miras alanlar kullanabilir.
+    protected val l: Double = 10.20
+
+    // Aynı modül içerisinde her yerden erişilebilir.
+    internal fun m(): Float = 12.11f
+}
+
+class OtherClass : SomeClass() {
+    fun accessSomeClass() {
+        println(i)
+        println(j)
+        println(k) // (private) hata verir
+        println(l)
+        println(m())
+    }
+}
+
+fun main() {
+    val createObject = SomeClass()
+
+    println(createObject.i)
+    println(createObject.j)
+    println(createObject.k) // (private) hata verir
+    println(createObject.l) // (protected) hata verir
+    println(createObject.m())
+}
+```
+
+> Top level tanımlamalarda ```public```, ```private```, ```internal``` kullanılabilirken ```protected``` kullanılamaz. Çünkü miras alma işlemi top level tanımlamalarda kullanamıyoruz.
+
+### 10.3) Property vs Field
+
+```kotlin
+class Car {
+    // Varsayılan olarak public olarak gelir yazılmasına gerek yok
+    // Aşağıdaki ilk tanımda oluşan yapı arka tarafta field/değişken private olarak
+    // tanımlanmış ve get ve set blokları yazılarak erişim sağlanmıştır.
+
+    // Eğer val keyword'ünü kullanırsak set blokları yazılmaz.
+    // Çünkü field/değişken sonradan değiştirilemez.
+    // var keyword'ü kullanırsak hem get hem de set blokları yazılır.
+
+    // Kısaca yazdığımız field'lar/değişkenler aslında birer property'dir.
+    // Property'nin nasıl oluşması gerektiğini tanımlıyoruz.
+
+
+    // arka tarafta private field, get ve set blokları tanımlanmıştır.
+    public var carColor: String = "Red"
+
+    // arka tarafta private field ve get blokları tanımlanmıştır.
+    public val model: String = "Audi"
+
+    // arka tarafta private field/değişken tanımlanmıştır.
+    private var year: String = "2023"
+
+}
+
+// Yukarıdaki kodun java oluşan yapısı
+/*
+public final class Car {
+    
+   @NotNull
+   private String carColor = "Red";
+   @NotNull
+   private final String model = "Audi";
+   private String year = "2023";
+
+   @NotNull
+   public final String getCarColor() {
+      return this.carColor;
+   }
+
+   public final void setCarColor(@NotNull String var1) {
+      Intrinsics.checkNotNullParameter(var1, "<set-?>");
+      this.carColor = var1;
+   }
+
+   @NotNull
+   public final String getModel() {
+      return this.model;
+   }
+}
+*/
+```
+
+### 10.4) Encapsulation (Kapsülleme)
+
+Private olan bir property'ye erişmemiz gerekiyorsa, property tanımının hemen altına get ve set blokları açarak erişim kurallarını belirtebiliriz veya direkt bir fonksiyon yazarak da erişebiliriz.
+
+```kotlin
+class Count {
+    // iki erişim yolu da arkada method yazarak field'a erişir.
+    // Aşağıdaki erişim yolu java kodlarında getI() ve setI methodlarını yazar.
+    // Property public olduğu için sadece get bloğu yazılabilir ancak
+    // sadece set bloğu yazılamaz.
+    var i: Int = 0
+        get() {
+            return field // field özel bir keyword'dür
+        }
+        set(value: Int) {
+            field = value
+        }
+
+    
+    // fonksiyon yazarak erişmek
+    private var j: Int = 0
+
+    fun getJ(): Int {
+        return j
+    }
+
+    fun setJ(i: Int) {
+        j = i
+    }
+}
+/*
+
+yukarıdaki class'ın java karşılığı
+public final class Count {
+   private int i;
+   private int j;
+
+   public final int getI() {
+      return this.i;
+   }
+
+   public final void setI(int value) {
+      this.i = value;
+   }
+
+   public final int getJ() {
+      return this.j;
+   }
+
+   public final void setJ(int i) {
+      this.j = i;
+   }
+}
+*/
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
